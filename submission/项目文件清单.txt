@@ -57,7 +57,7 @@ docs\01_比赛要求逐条剖析.md	3978 bytes
 docs\02_系统设计说明书.md	6144 bytes
 docs\03_数据接入与真实验证指南.md	5039 bytes
 docs\04_文献综述与真实来源.md	8963 bytes
-docs\05_作品报告正文.md	29258 bytes
+docs\05_作品报告正文.md	29168 bytes
 docs\06_答辩演示稿与问答.md	6852 bytes
 docs\07_最终提交清单.md	3798 bytes
 docs\08_AI辅助与原创性风险说明.md	1296 bytes
@@ -109,7 +109,7 @@ src\agentguard\schema.py	3689 bytes
 src\agentguard\synthetic.py	11158 bytes
 submission\AgentGuard_项目文档与部署说明.md	6600 bytes
 submission\作品原创性声明_待签字盖章.docx	10045 bytes
-submission\作品报告_AgentGuard_自主命题模板版.docx	318994 bytes
+submission\作品报告_AgentGuard_自主命题模板版.docx	179784 bytes
 submission\最终提交清单.md	3798 bytes
 submission\材料生成说明.json	775 bytes
 submission\答辩演示稿与问答.md	6852 bytes
