@@ -19,7 +19,7 @@ from convert_loghub_hdfs import convert_text as convert_hdfs_text
 from generate_controlled_security_logs import generate as generate_controlled_security_events
 
 
-MAX_BODY_BYTES = 1024 * 1024
+MAX_BODY_BYTES = 8 * 1024 * 1024
 MAX_EVENTS = 5000
 DEFAULT_LOCAL_PROCESS_LIMIT = 120
 DEFAULT_LOCAL_CONNECTION_LIMIT = 80
@@ -37,7 +37,7 @@ def checked_content_length(value: str) -> int:
     if length < 0:
         raise ValueError("Content-Length 不能为负数")
     if length > MAX_BODY_BYTES:
-        raise RequestLimitError("请求体超过 1 MiB")
+        raise RequestLimitError("请求体超过 8 MiB")
     return length
 
 
@@ -229,7 +229,7 @@ def build_handler(detector: AgentGuardDetector, demo_records):
                         "results": results,
                     })
                 except RequestLimitError:
-                    return self._json(HTTPStatus.REQUEST_ENTITY_TOO_LARGE, {"error": "上传日志超过 1 MiB"})
+                    return self._json(HTTPStatus.REQUEST_ENTITY_TOO_LARGE, {"error": "上传日志超过 8 MiB"})
                 except Exception as exc:
                     return self._json(HTTPStatus.BAD_REQUEST, {"error": f"无法自动解析日志：{exc}"})
             if path != "/api/analyze":

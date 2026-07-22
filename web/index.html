@@ -192,6 +192,45 @@
     .result-pane { transition: opacity .34s ease, transform .34s ease; }
     .result-pane.switching { opacity: 0; transform: translateY(18px); }
 
+    .upload-strip {
+      display: grid;
+      grid-template-columns: 12px minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 0;
+      margin: 0 0 16px;
+    }
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--muted);
+    }
+    .upload-strip[data-state="busy"] .status-dot { background: var(--accent); animation: pulse 1s ease infinite; }
+    .upload-strip[data-state="success"] .status-dot { background: var(--accent-2); }
+    .upload-strip[data-state="error"] .status-dot { background: var(--danger); }
+    .upload-copy {
+      min-width: 0;
+      display: grid;
+      gap: 3px;
+    }
+    .upload-copy b,
+    .upload-copy span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .upload-copy span { color: var(--muted); font-size: 12px; }
+    .upload-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
     .bars { display: grid; gap: 10px; margin-bottom: 16px; }
     .bar-row {
       display: grid;
@@ -298,6 +337,7 @@
     @keyframes fade-out { to { opacity: 0; transform: translateY(-8px); } }
     @keyframes slide-in { from { opacity: 0; transform: translateY(18px); } }
     @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes pulse { 50% { transform: scale(1.35); opacity: .6; } }
     @keyframes rise { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
     @media (max-width: 1040px) {
@@ -313,6 +353,8 @@
       .metric { border-right: 0; border-bottom: 1px solid var(--line); }
       .metric:last-child { border-bottom: 0; }
       .actions { justify-content: flex-start; }
+      .upload-strip { grid-template-columns: 12px 1fr; }
+      .upload-actions { grid-column: 2; justify-content: flex-start; }
       .hero h2 { font-size: 42px; }
     }
   </style>
@@ -366,6 +408,17 @@
 
     <article class="panel result-pane" id="resultPane">
       <div class="head"><h3>告警结果</h3><span class="badge" id="sourceBadge">尚未运行</span></div>
+      <div class="upload-strip" id="uploadStrip" data-state="idle">
+        <div class="status-dot"></div>
+        <div class="upload-copy">
+          <b id="uploadName">未选择日志</b>
+          <span id="uploadMeta">支持 BGL/HDFS 原始日志和 AgentGuard JSONL，本机解析。</span>
+        </div>
+        <div class="upload-actions">
+          <button class="link-btn upload-picker" type="button">选择日志</button>
+          <button class="link-btn upload-picker" id="uploadAgain" type="button" disabled>更换日志</button>
+        </div>
+      </div>
       <div class="bars" id="bars"><div class="empty">选择一种检测模式载入结果。</div></div>
       <div class="risk-list" id="risks"><div class="empty">等待检测结果。</div></div>
       <div class="table-wrap">
@@ -412,6 +465,33 @@ const eventWords = {
 };
 const eventZh = s => String(s ?? '').split('|').map(x => eventWords[x] || x).join(' / ');
 let currentResults = [];
+
+function uploadButtons() {
+  return [$('#upload'), ...document.querySelectorAll('.upload-picker')];
+}
+
+function formatBytes(bytes) {
+  if (!Number.isFinite(bytes)) return '未知大小';
+  if (bytes >= 1024 * 1024) return `${(bytes / 1024 / 1024).toFixed(2)} MiB`;
+  return `${(bytes / 1024).toFixed(1)} KiB`;
+}
+
+function setUploadState(state, name, meta) {
+  $('#uploadStrip').dataset.state = state;
+  $('#uploadName').textContent = name || '未选择日志';
+  $('#uploadMeta').textContent = meta || '支持 BGL/HDFS 原始日志和 AgentGuard JSONL，本机解析。';
+  $('#uploadAgain').disabled = state === 'idle';
+}
+
+function parseErrorMessage(error) {
+  const raw = String(error?.message || error || '未知错误');
+  try {
+    const parsed = JSON.parse(raw);
+    return parsed.error || raw;
+  } catch {
+    return raw;
+  }
+}
 
 function setActive(id) {
   ['local', 'controlled', 'upload', 'load'].forEach(name => $('#' + name).classList.toggle('active', name === id));
@@ -491,10 +571,12 @@ async function loadControlled() {
 async function uploadLogFile(file) {
   const btn = $('#upload');
   setActive('upload');
-  btn.disabled = true;
+  uploadButtons().forEach(button => button.disabled = true);
   btn.innerHTML = '<i class="spinner"></i> 解析中';
+  setUploadState('busy', file.name, `${formatBytes(file.size)} · 读取文件中`);
   try {
     const content = await file.text();
+    setUploadState('busy', file.name, `${formatBytes(file.size)} · 上传到本机检测服务`);
     const res = await fetch('/api/upload-log', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -504,14 +586,23 @@ async function uploadLogFile(file) {
     const payload = await res.json();
     const label = `上传日志 · ${payload.summary?.parser ?? 'auto'} · ${payload.summary?.agentguard_alert_count ?? 0} 条告警`;
     const text = `已解析 ${payload.summary?.event_count ?? 0} 条事件，公开标签异常 ${payload.summary?.public_label_event_count ?? 0} 条；日志只在本机服务内解析。`;
+    setUploadState('success', file.name, `${payload.summary?.parser ?? 'auto'} · ${payload.summary?.event_count ?? 0} 条事件 · ${payload.summary?.agentguard_alert_count ?? 0} 条告警`);
     await smoothUpdate(() => render(payload.results || [], label, text));
   } catch (e) {
-    alert('上传解析失败：' + e.message);
+    setUploadState('error', file.name, `解析失败：${parseErrorMessage(e)}`);
+    $('#sourceBadge').textContent = '上传失败';
+    $('#modeTitle').textContent = '上传失败';
+    $('#modeText').textContent = '请更换为 BGL/HDFS 原始日志或 AgentGuard JSONL，单个文件不超过 8 MiB。';
   } finally {
-    btn.disabled = false;
+    uploadButtons().forEach(button => button.disabled = false);
     btn.textContent = '上传日志分析';
     $('#uploadFile').value = '';
   }
+}
+
+function openUploadPicker() {
+  $('#uploadFile').value = '';
+  $('#uploadFile').click();
 }
 
 function render(data, sourceLabel, modeText) {
@@ -566,7 +657,8 @@ function showTrace(index) {
 $('#load').addEventListener('click', loadDemo);
 $('#local').addEventListener('click', loadLocal);
 $('#controlled').addEventListener('click', loadControlled);
-$('#upload').addEventListener('click', () => $('#uploadFile').click());
+$('#upload').addEventListener('click', openUploadPicker);
+document.querySelectorAll('.upload-picker').forEach(button => button.addEventListener('click', openUploadPicker));
 $('#uploadFile').addEventListener('change', event => {
   const file = event.target.files && event.target.files[0];
   if (file) uploadLogFile(file);
