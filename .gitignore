@@ -20,6 +20,9 @@ dist/
 # macOS files
 .DS_Store
 
+# Office temporary lock files
+~$*
+
 # Archives and artifacts
 *.zip
 artifacts/

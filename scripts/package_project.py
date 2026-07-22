@@ -27,6 +27,8 @@ def included(path: Path) -> bool:
     relative = path.relative_to(ROOT)
     if relative.as_posix() == "submission/完整包_SHA256.json":
         return False
+    if path.name.startswith("~$"):
+        return False
     return not any(part in EXCLUDED_NAMES for part in relative.parts) and path.suffix.lower() not in EXCLUDED_SUFFIXES
 
 
