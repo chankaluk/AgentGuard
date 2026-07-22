@@ -1,13 +1,14 @@
 {
   "generated_files": [
-    "作品报告_AgentGuard_自主命题模板版.docx",
-    "系统使用说明_AgentGuard.docx",
-    "项目文件清单.txt",
-    "答辩演示稿与问答.md",
-    "材料生成说明.json",
+    "AgentGuard_项目文档与部署说明.md",
     "作品原创性声明_待签字盖章.docx",
+    "作品报告_AgentGuard_自主命题模板版.docx",
+    "完整包_SHA256.json",
     "最终提交清单.md",
-    "完整包_SHA256.json"
+    "材料生成说明.json",
+    "答辩演示稿与问答.md",
+    "系统使用说明_AgentGuard.docx",
+    "项目文件清单.txt"
   ],
   "data_disclosure": "Self-built reproducible hard-negative engineering benchmark. It validates the software pipeline and does not represent production deployment.",
   "track": "自主命题赛道",

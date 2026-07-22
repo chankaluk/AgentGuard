@@ -278,13 +278,22 @@ def make_user_guide(output_path):
     doc.add_heading("4. 告警结果页面",1)
     doc.add_paragraph("告警同时保留实体、严重等级、风险分、解释和关键事件，可从 artifacts/evaluation/alerts.jsonl 回查原始证据。")
     add_guide_figure(doc, EVAL_DIR / "guide_alert_result.png", "图 3  告警结果页面")
-    doc.add_heading("5. 模型分、规则分与证据链",1)
+    doc.add_heading("5. 上传日志演示",1)
+    doc.add_paragraph("页面支持直接上传 .log、.jsonl 或 .txt 文件。当前可自动识别 AgentGuard JSONL、Loghub BGL 原始日志和 Loghub HDFS 原始日志。上传状态条会显示当前文件名、解析器、事件数、告警数和失败原因；上传完一个日志后可点击“更换日志”继续选择其它文件。")
+    for item in (
+        "data/upload_logs/01_public_bgl_anomaly.log：公开 BGL 系统异常日志，适合证明不是写死样例。",
+        "data/upload_logs/02_controlled_security_chain.log：可控异常行为链，适合展示查看链路。",
+        "data/upload_logs/03_local_normal_snapshot.log：本机正常行为快照，适合展示正常情况。",
+        "data/upload_logs/04_demo_mixed_dataset.log：混合测试日志，适合展示批量检测。",
+    ):
+        doc.add_paragraph(item, style="List Bullet")
+    doc.add_heading("6. 模型分、规则分与证据链",1)
     doc.add_paragraph("模型分反映行为序列偏离，规则分反映透明的高风险顺序命中，混合分用于最终决策。97% 检出率属于混合系统，不是 Transformer 单模型成绩。")
     add_guide_figure(doc, EVAL_DIR / "guide_score_evidence.png", "图 4  模型分、规则分与证据链")
-    doc.add_heading("6. 自有数据训练与故障处理",1)
+    doc.add_heading("7. 自有数据训练与故障处理",1)
     for item in ("把授权且脱敏的 train/validation/test.jsonl 放入 data/local，再运行 train.py 与 evaluate.py。", "端口占用：使用 serve.py --port 8081。", "模型缺失：先运行 generate_demo_data.py、train.py。", "字段错误：检查 timestamp、entity_id、event_type、action。", "现场断网不影响核心功能。"):
         doc.add_paragraph(item, style="List Bullet")
-    doc.add_heading("7. 部署安全边界",1)
+    doc.add_heading("8. 部署安全边界",1)
     doc.add_paragraph("服务默认仅监听本机。真实部署前应增加认证、TLS、上传限制、日志脱敏、访问审计与模型漂移监测；当前自建基准结果不能直接外推到生产环境。")
     output_path.parent.mkdir(parents=True,exist_ok=True); doc.save(output_path); scrub_office_metadata(output_path)
 
@@ -395,6 +404,7 @@ def main():
         scrub_office_metadata(final_ppt)
     shutil.copy2(ROOT/"docs"/"06_答辩演示稿与问答.md",SUBMISSION_DIR/"答辩演示稿与问答.md")
     shutil.copy2(ROOT/"docs"/"07_最终提交清单.md",SUBMISSION_DIR/"最终提交清单.md")
+    shutil.copy2(ROOT/"docs"/"13_最终项目文档与部署说明.md",SUBMISSION_DIR/"AgentGuard_项目文档与部署说明.md")
     make_manifest(SUBMISSION_DIR/"项目文件清单.txt")
     summary={
         "generated_files":[path.name for path in SUBMISSION_DIR.iterdir() if path.is_file()],
