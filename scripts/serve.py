@@ -2,20 +2,24 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
 
 from _bootstrap import ROOT
 from agentguard.baselines import score_hybrid_records
 from agentguard.data import group_sequences, load_records
 from agentguard.engine import AgentGuardDetector
 from agentguard.schema import BehaviorEvent
+from collect_local_normal import collect_events
 
 
 MAX_BODY_BYTES = 1024 * 1024
 MAX_EVENTS = 5000
+DEFAULT_LOCAL_PROCESS_LIMIT = 120
+DEFAULT_LOCAL_CONNECTION_LIMIT = 80
 
 
 class RequestLimitError(ValueError):
@@ -43,6 +47,31 @@ def parse_events_payload(payload) -> list[BehaviorEvent]:
     if len(items) > MAX_EVENTS:
         raise RequestLimitError(f"事件数量超过上限 {MAX_EVENTS}")
     return [BehaviorEvent.from_dict(item) for item in items]
+
+
+def bounded_int(values, default: int, minimum: int, maximum: int) -> int:
+    if not values:
+        return default
+    try:
+        value = int(values[0])
+    except (TypeError, ValueError) as exc:
+        raise ValueError("query parameter must be an integer") from exc
+    return max(minimum, min(maximum, value))
+
+
+def explain_records(detector: AgentGuardDetector, records):
+    if not records:
+        return []
+    _, scores, model_scores, rule_scores, _ = score_hybrid_records(detector, records)
+    return [
+        detector.explain_record(
+            record,
+            float(score),
+            model_score=float(model_score),
+            rule_score=float(rule_score),
+        )
+        for record, score, model_score, rule_score in zip(records, scores, model_scores, rule_scores)
+    ]
 
 
 def build_handler(detector: AgentGuardDetector, demo_records):
@@ -84,6 +113,38 @@ def build_handler(detector: AgentGuardDetector, demo_records):
                     )
                     for record, score, model_score, rule_score in ranked
                 ])
+            if path == "/api/local-snapshot":
+                try:
+                    query = parse_qs(urlparse(self.path).query)
+                    process_limit = bounded_int(
+                        query.get("process_limit"),
+                        DEFAULT_LOCAL_PROCESS_LIMIT,
+                        10,
+                        500,
+                    )
+                    connection_limit = bounded_int(
+                        query.get("connection_limit"),
+                        DEFAULT_LOCAL_CONNECTION_LIMIT,
+                        0,
+                        500,
+                    )
+                    salt = os.environ.get("AGENTGUARD_LOCAL_SALT", "agentguard-local-dashboard")
+                    events = collect_events(salt, process_limit, connection_limit)
+                    config = detector.config
+                    records = group_sequences(events, config["window_size"], config["stride"], config["min_events"])
+                    results = explain_records(detector, records)
+                    return self._json(HTTPStatus.OK, {
+                        "mode": "local_snapshot",
+                        "summary": {
+                            "event_count": len(events),
+                            "sequence_count": len(records),
+                            "alert_count": sum(1 for item in results if item["is_anomaly"]),
+                            "privacy": "process names and remote port buckets only; command lines, usernames, hostnames, paths and remote IPs are not returned",
+                        },
+                        "results": results,
+                    })
+                except Exception:
+                    return self._json(HTTPStatus.BAD_REQUEST, {"error": "本机快照采集或分析失败"})
             return self._json(HTTPStatus.NOT_FOUND, {"error": "not found"})
 
         def do_POST(self):
