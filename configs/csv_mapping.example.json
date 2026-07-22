@@ -1,0 +1,12 @@
+{
+  "timestamp": "event_time",
+  "entity_id": "host_user",
+  "source": "data_source",
+  "event_type": "category",
+  "action": "operation",
+  "object_type": "target_type",
+  "object_name": "target_name",
+  "result": "status",
+  "label": "is_anomaly",
+  "scenario": "attack_family"
+}

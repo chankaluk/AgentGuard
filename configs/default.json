@@ -1,0 +1,28 @@
+{
+  "seed": 2026,
+  "window_size": 24,
+  "stride": 8,
+  "min_events": 6,
+  "max_vocab_size": 2048,
+  "model": {
+    "d_model": 64,
+    "n_heads": 4,
+    "n_layers": 2,
+    "dim_feedforward": 128,
+    "dropout": 0.1
+  },
+  "training": {
+    "epochs": 12,
+    "batch_size": 64,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "next_event_loss_weight": 0.25,
+    "target_fpr": 0.15,
+    "early_stopping_patience": 4
+  },
+  "scoring": {
+    "classifier_weight": 0.8,
+    "surprisal_weight": 0.2,
+    "minimum_alert_score": 0.05
+  }
+}
