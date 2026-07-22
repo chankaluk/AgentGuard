@@ -14,6 +14,7 @@ from agentguard.data import group_sequences, load_records
 from agentguard.engine import AgentGuardDetector
 from agentguard.schema import BehaviorEvent
 from collect_local_normal import collect_events
+from generate_controlled_security_logs import generate as generate_controlled_security_events
 
 
 MAX_BODY_BYTES = 1024 * 1024
@@ -145,6 +146,22 @@ def build_handler(detector: AgentGuardDetector, demo_records):
                     })
                 except Exception:
                     return self._json(HTTPStatus.BAD_REQUEST, {"error": "本机快照采集或分析失败"})
+            if path == "/api/controlled-security":
+                events = generate_controlled_security_events()
+                config = detector.config
+                records = group_sequences(events, config["window_size"], config["stride"], config["min_events"])
+                results = sorted(explain_records(detector, records), key=lambda item: item["score"], reverse=True)
+                return self._json(HTTPStatus.OK, {
+                    "mode": "controlled_security_test",
+                    "summary": {
+                        "event_count": len(events),
+                        "sequence_count": len(records),
+                        "alert_count": sum(1 for item in results if item["is_anomaly"]),
+                        "safety": "simulated logs only; no credential access, exploit, network scan or upload is executed",
+                        "expected_rule_hit": "untrusted prompt -> privilege elevation -> secret read -> external connect -> upload",
+                    },
+                    "results": results,
+                })
             return self._json(HTTPStatus.NOT_FOUND, {"error": "not found"})
 
         def do_POST(self):

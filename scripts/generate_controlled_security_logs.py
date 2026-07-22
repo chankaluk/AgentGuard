@@ -33,10 +33,10 @@ def generate() -> list[BehaviorEvent]:
     normal_entity = "lab-normal-admin"
     normal_flow = [
         ("agent", "model", "receive_prompt", "text", "approved_security_review"),
-        ("host", "network", "connect", "domain", "approved_backup_endpoint"),
-        ("agent", "tool", "read", "secret", "rotated_test_secret"),
-        ("agent", "permission", "elevate", "privilege", "approved_admin_window"),
-        ("agent", "tool", "upload", "archive", "encrypted_audit_export"),
+        ("agent", "tool", "list", "directory", "project_workspace"),
+        ("agent", "tool", "read", "file", "sanitized_audit_notes"),
+        ("agent", "tool", "write", "file", "security_review_report"),
+        ("host", "network", "connect", "domain", "approved_update_endpoint"),
         ("agent", "model", "respond", "text", "audit_complete"),
     ]
     for index, fields in enumerate(normal_flow):
