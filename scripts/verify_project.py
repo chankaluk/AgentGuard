@@ -30,6 +30,7 @@ REQUIRED_FILES = (
     "scripts/collect_local_normal.py",
     "scripts/generate_controlled_security_logs.py",
     "scripts/convert_loghub_hdfs.py",
+    "scripts/convert_loghub_bgl.py",
     "scripts/summarize_supplemental_inputs.py",
     "scripts/train.py",
     "scripts/evaluate.py",

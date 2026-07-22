@@ -1,0 +1,9 @@
+{
+  "input_source": "data/public/BGL_2k.log",
+  "output": "data/public/loghub_bgl_sample.jsonl",
+  "event_count": 500,
+  "public_label_anomaly_count": 94,
+  "dataset": "Loghub BGL_2k public sample",
+  "label_policy": "BGL first column is used as public ground-truth label: '-' normal, other values anomaly",
+  "source_url": "https://github.com/logpai/loghub/tree/master/BGL"
+}

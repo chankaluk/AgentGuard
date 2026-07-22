@@ -331,7 +331,9 @@
       <span class="status">检测引擎在线</span>
       <button class="ghost" id="local">扫描本机快照</button>
       <button class="ghost" id="controlled">可控异常测试</button>
+      <button class="ghost" id="upload">上传日志分析</button>
       <button class="ghost" id="load">运行演示检测</button>
+      <input id="uploadFile" type="file" accept=".log,.jsonl,.txt,.csv" hidden>
     </div>
   </header>
 
@@ -390,6 +392,7 @@ const tacticZh = {
   'Discovery / Lateral Movement': '发现 / 横向移动',
   'Credential Access / Exfiltration': '凭据访问 / 数据外传',
   'Prompt Injection / Privilege Escalation': '提示注入 / 权限提升',
+  'Public Log Anomaly': '公开日志异常',
   'Impact': '影响破坏',
   'Credential Access': '凭据访问',
   'Persistence': '持久化',
@@ -411,7 +414,7 @@ const eventZh = s => String(s ?? '').split('|').map(x => eventWords[x] || x).joi
 let currentResults = [];
 
 function setActive(id) {
-  ['local', 'controlled', 'load'].forEach(name => $('#' + name).classList.toggle('active', name === id));
+  ['local', 'controlled', 'upload', 'load'].forEach(name => $('#' + name).classList.toggle('active', name === id));
 }
 
 async function smoothUpdate(work) {
@@ -485,6 +488,32 @@ async function loadControlled() {
   }
 }
 
+async function uploadLogFile(file) {
+  const btn = $('#upload');
+  setActive('upload');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="spinner"></i> 解析中';
+  try {
+    const content = await file.text();
+    const res = await fetch('/api/upload-log', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ filename: file.name, content, limit: 800 })
+    });
+    if (!res.ok) throw new Error(await res.text());
+    const payload = await res.json();
+    const label = `上传日志 · ${payload.summary?.parser ?? 'auto'} · ${payload.summary?.agentguard_alert_count ?? 0} 条告警`;
+    const text = `已解析 ${payload.summary?.event_count ?? 0} 条事件，公开标签异常 ${payload.summary?.public_label_event_count ?? 0} 条；日志只在本机服务内解析。`;
+    await smoothUpdate(() => render(payload.results || [], label, text));
+  } catch (e) {
+    alert('上传解析失败：' + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '上传日志分析';
+    $('#uploadFile').value = '';
+  }
+}
+
 function render(data, sourceLabel, modeText) {
   currentResults = Array.isArray(data) ? data : [];
   const anomalies = currentResults.filter(x => x.is_anomaly);
@@ -537,6 +566,11 @@ function showTrace(index) {
 $('#load').addEventListener('click', loadDemo);
 $('#local').addEventListener('click', loadLocal);
 $('#controlled').addEventListener('click', loadControlled);
+$('#upload').addEventListener('click', () => $('#uploadFile').click());
+$('#uploadFile').addEventListener('change', event => {
+  const file = event.target.files && event.target.files[0];
+  if (file) uploadLogFile(file);
+});
 fetch('/api/health').then(r => r.json()).then(x => $('#threshold').textContent = Number(x.threshold).toFixed(3)).catch(() => {});
 if (new URLSearchParams(location.search).get('demo') === '1') loadDemo();
 </script>

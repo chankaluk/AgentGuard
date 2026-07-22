@@ -38,9 +38,9 @@ def classify_action(message: str) -> tuple[str, str]:
     return "log", "observe"
 
 
-def convert(input_path: Path, limit: int) -> list[BehaviorEvent]:
+def convert_text(text: str, limit: int) -> list[BehaviorEvent]:
     events: list[BehaviorEvent] = []
-    for line in input_path.read_text(encoding="utf-8", errors="replace").splitlines():
+    for line in text.splitlines():
         if limit and len(events) >= limit:
             break
         match = LINE_RE.match(line.strip())
@@ -71,6 +71,10 @@ def convert(input_path: Path, limit: int) -> list[BehaviorEvent]:
             )
         )
     return events
+
+
+def convert(input_path: Path, limit: int) -> list[BehaviorEvent]:
+    return convert_text(input_path.read_text(encoding="utf-8", errors="replace"), limit)
 
 
 def display_path(path: Path) -> str:

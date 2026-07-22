@@ -85,6 +85,16 @@ def sequence_rule_score(record: SequenceRecord) -> float:
         lambda event: event.action == "remote_start",
     )):
         score += 0.75
+    public_failures = [
+        event for event in record.events
+        if event.source == "public_loghub"
+        and (
+            event.result.lower() == "failure"
+            or event.action in {"fail", "interrupt"}
+        )
+    ]
+    if len(public_failures) >= 3:
+        score += 0.72
     return min(1.0, score)
 
 

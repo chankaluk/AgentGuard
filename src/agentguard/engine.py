@@ -424,7 +424,7 @@ def _severity(score: float, threshold: float) -> str:
 
 def _natural_language_explanation(record: SequenceRecord) -> tuple[str, list[str]]:
     terms = " ".join(
-        f"{event.event_type} {event.action} {event.object_type} {event.object_name}".lower()
+        f"{event.source} {event.event_type} {event.action} {event.object_type} {event.object_name} {event.result}".lower()
         for event in record.events
     )
     findings = []
@@ -436,6 +436,7 @@ def _natural_language_explanation(record: SequenceRecord) -> tuple[str, list[str
         (("scan", "remote_start"), "先进行内网探测，随后远程启动未知进程", "Discovery / Lateral Movement"),
         (("browser_login_data", "credential_process"), "访问浏览器凭据并尝试读取凭据进程内存", "Credential Access"),
         (("untrusted_web_content", "elevate"), "不可信内容输入后发生权限提升，疑似提示注入导致工具劫持", "Prompt Injection / Privilege Escalation"),
+        (("public_loghub", "failure"), "公开系统日志中连续出现失败或致命事件，呈现系统异常波动", "Public Log Anomaly"),
     ]
     for needles, message, tactic in rules:
         if all(needle in terms for needle in needles):
