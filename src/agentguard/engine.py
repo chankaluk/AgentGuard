@@ -386,6 +386,24 @@ class AgentGuardDetector:
             "explanation": explanation,
             "mapped_tactics": tactics,
             "evidence": evidence,
+            "event_timeline": [
+                {
+                    "index": index + 1,
+                    "timestamp": event.timestamp,
+                    "event": event.token(),
+                    "source": event.source,
+                    "event_type": event.event_type,
+                    "action": event.action,
+                    "object_type": event.object_type,
+                    "object_name": event.object_name,
+                    "result": event.result,
+                    "risk_hint": event.risk_hint,
+                    "label": event.label,
+                    "scenario": event.scenario,
+                    "raw_log": event.to_dict(),
+                }
+                for index, event in enumerate(record.events)
+            ],
             "ground_truth_for_evaluation_only": {
                 "label": record.label,
                 "scenario": record.scenario,
