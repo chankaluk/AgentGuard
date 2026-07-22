@@ -13,7 +13,7 @@ artifacts\evaluation\alerts.csv	22833 bytes
 artifacts\evaluation\alerts.jsonl	428380 bytes
 artifacts\evaluation\baselines.json	817 bytes
 artifacts\evaluation\confusion_matrix.png	37010 bytes
-artifacts\evaluation\dashboard.png	744925 bytes
+artifacts\evaluation\dashboard.png	141116 bytes
 artifacts\evaluation\guide_alert_result.png	54776 bytes
 artifacts\evaluation\guide_input_example.png	43918 bytes
 artifacts\evaluation\guide_score_evidence.png	36642 bytes
@@ -22,6 +22,7 @@ artifacts\evaluation\model_architecture.png	90385 bytes
 artifacts\evaluation\scenario_detection_rate.png	45490 bytes
 artifacts\evaluation\score_distribution.png	44329 bytes
 artifacts\evaluation\training_history.png	64797 bytes
+artifacts\evaluation\upload_log_feedback.png	163063 bytes
 artifacts\local_normal_summary.json	242 bytes
 artifacts\public_loghub_bgl_scores.jsonl	250243 bytes
 artifacts\public_loghub_bgl_summary.json	384 bytes
@@ -56,7 +57,7 @@ docs\01_比赛要求逐条剖析.md	3978 bytes
 docs\02_系统设计说明书.md	6144 bytes
 docs\03_数据接入与真实验证指南.md	5039 bytes
 docs\04_文献综述与真实来源.md	8963 bytes
-docs\05_作品报告正文.md	29168 bytes
+docs\05_作品报告正文.md	29258 bytes
 docs\06_答辩演示稿与问答.md	6852 bytes
 docs\07_最终提交清单.md	3798 bytes
 docs\08_AI辅助与原创性风险说明.md	1296 bytes
@@ -64,7 +65,7 @@ docs\09_模型权重与依赖说明.md	2565 bytes
 docs\10_前沿方案对照与补强路线.md	5891 bytes
 docs\11_评委通俗讲解稿.md	3878 bytes
 docs\12_三类真实补充数据输入输出说明.md	5796 bytes
-docs\13_最终项目文档与部署说明.md	6507 bytes
+docs\13_最终项目文档与部署说明.md	6600 bytes
 docs\references.bib	2492 bytes
 IMPLEMENTATION_STATUS.md	4476 bytes
 PROJECT_HANDOFF.md	8703 bytes
@@ -87,7 +88,7 @@ scripts\evaluate.py	6661 bytes
 scripts\evaluate_baselines.py	1736 bytes
 scripts\generate_controlled_security_logs.py	3724 bytes
 scripts\generate_demo_data.py	915 bytes
-scripts\generate_submission_docs.py	35516 bytes
+scripts\generate_submission_docs.py	35642 bytes
 scripts\office_hygiene.py	2904 bytes
 scripts\package_project.py	2523 bytes
 scripts\serve.py	13207 bytes
@@ -106,13 +107,13 @@ src\agentguard\metrics.py	3097 bytes
 src\agentguard\model.py	4129 bytes
 src\agentguard\schema.py	3689 bytes
 src\agentguard\synthetic.py	11158 bytes
-submission\AgentGuard_项目文档与部署说明.md	6507 bytes
+submission\AgentGuard_项目文档与部署说明.md	6600 bytes
 submission\作品原创性声明_待签字盖章.docx	10045 bytes
-submission\作品报告_AgentGuard_自主命题模板版.docx	179784 bytes
+submission\作品报告_AgentGuard_自主命题模板版.docx	318994 bytes
 submission\最终提交清单.md	3798 bytes
 submission\材料生成说明.json	775 bytes
 submission\答辩演示稿与问答.md	6852 bytes
-submission\系统使用说明_AgentGuard.docx	891527 bytes
+submission\系统使用说明_AgentGuard.docx	417725 bytes
 tests\test_benchmark_quality.py	7271 bytes
 tests\test_core.py	3957 bytes
 tests\test_documentation_evidence.py	1526 bytes

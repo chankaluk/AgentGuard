@@ -17,6 +17,8 @@ AgentGuard 是一个 AI Agent 行为异常检测系统。它不执行攻击，�
 - 支持点击“查看链路”展开完整时间线。
 - 随包提供四个可上传 `.log` 示例，方便现场证明不是写死页面。
 
+![上传日志状态反馈与更换入口](../artifacts/evaluation/upload_log_feedback.png)
+
 ## 3. 四个可上传 .log 示例
 
 文件夹：
