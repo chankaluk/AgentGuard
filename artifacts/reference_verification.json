@@ -1,0 +1,106 @@
+{
+  "checked_on": "2026-07-15",
+  "results": [
+    {
+      "url": "https://doi.org/10.48550/arXiv.1706.03762",
+      "ok": true,
+      "status": 200,
+      "resolved_url": "https://arxiv.org/abs/1706.03762"
+    },
+    {
+      "url": "https://doi.org/10.18653/v1/N19-1423",
+      "ok": true,
+      "status": 200,
+      "resolved_url": "https://aclanthology.org/N19-1423/"
+    },
+    {
+      "url": "https://api.crossref.org/works/10.1145%2F3133956.3134015",
+      "ok": true,
+      "status": 200,
+      "resolved_url": "https://api.crossref.org/works/10.1145%2F3133956.3134015"
+    },
+    {
+      "url": "https://doi.org/10.1109/IJCNN52387.2021.9534113",
+      "ok": true,
+      "status": 202,
+      "resolved_url": "https://ieeexplore.ieee.org/document/9534113/"
+    },
+    {
+      "url": "https://openreview.net/forum?id=LzQQ89U1qm_",
+      "ok": true,
+      "status": 200,
+      "resolved_url": "https://openreview.net/challenge?redirect=%2Fforum%3Fid%3DLzQQ89U1qm_"
+    },
+    {
+      "url": "https://api.crossref.org/works/10.14778%2F3514061.3514067",
+      "ok": true,
+      "status": 200,
+      "resolved_url": "https://api.crossref.org/works/10.14778%2F3514061.3514067"
+    },
+    {
+      "url": "https://proceedings.mlr.press/v80/ruff18a.html",
+      "ok": true,
+      "status": 200,
+      "resolved_url": "https://proceedings.mlr.press/v80/ruff18a.html"
+    },
+    {
+      "url": "https://api.crossref.org/works/10.1145%2F1541880.1541882",
+      "ok": true,
+      "status": 200,
+      "resolved_url": "https://api.crossref.org/works/10.1145%2F1541880.1541882"
+    },
+    {
+      "url": "https://doi.org/10.1109/ICWS.2017.13",
+      "ok": true,
+      "status": 202,
+      "resolved_url": "https://ieeexplore.ieee.org/document/8029742/"
+    },
+    {
+      "url": "https://doi.org/10.6028/NIST.AI.100-1",
+      "ok": true,
+      "status": 200,
+      "resolved_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf"
+    },
+    {
+      "url": "https://doi.org/10.6028/NIST.SP.800-92",
+      "ok": true,
+      "status": 200,
+      "resolved_url": "https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-92.pdf"
+    },
+    {
+      "url": "https://attack.mitre.org/",
+      "ok": true,
+      "status": 200,
+      "resolved_url": "https://attack.mitre.org/"
+    },
+    {
+      "url": "https://atlas.mitre.org/",
+      "ok": true,
+      "status": 200,
+      "resolved_url": "https://atlas.mitre.org/"
+    },
+    {
+      "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+      "ok": true,
+      "status": 200,
+      "resolved_url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
+    },
+    {
+      "url": "https://www.sei.cmu.edu/library/insider-threat-test-dataset/",
+      "ok": true,
+      "status": 200,
+      "resolved_url": "https://www.sei.cmu.edu/library/insider-threat-test-dataset/"
+    },
+    {
+      "url": "https://csr.lanl.gov/data/",
+      "ok": false,
+      "error": "TimeoutError: The read operation timed out"
+    },
+    {
+      "url": "https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/9CBKST",
+      "ok": true,
+      "status": 202,
+      "resolved_url": "https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/9CBKST"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "input": "data/local/normal_from_host.jsonl",
+  "event_count": 90,
+  "label": "normal only",
+  "scenario": "local_normal_snapshot",
+  "privacy": "entity_id salted; command lines, usernames, hostnames and remote IPs are not stored"
+}

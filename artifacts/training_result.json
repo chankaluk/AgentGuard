@@ -1,0 +1,62 @@
+{
+  "best_epoch": 1,
+  "threshold": 0.6320191025733948,
+  "validation_metrics": {
+    "threshold": 0.6320191025733948,
+    "true_positive": 55,
+    "false_positive": 33,
+    "true_negative": 197,
+    "false_negative": 15,
+    "detection_rate": 0.7857142857142857,
+    "false_positive_rate": 0.14347826086956522,
+    "precision": 0.625,
+    "f1": 0.6962025316455697,
+    "accuracy": 0.84,
+    "roc_auc": 0.9204968944099379
+  },
+  "history": [
+    {
+      "epoch": 1.0,
+      "train_loss": 1.844092535018921,
+      "validation_recall": 0.7857142857142857,
+      "validation_fpr": 0.14347826086956522,
+      "validation_f1": 0.6962025316455697,
+      "threshold": 0.6320191025733948
+    },
+    {
+      "epoch": 2.0,
+      "train_loss": 1.4012635507583617,
+      "validation_recall": 0.7142857142857143,
+      "validation_fpr": 0.14782608695652175,
+      "validation_f1": 0.6493506493506493,
+      "threshold": 0.7558138966560364
+    },
+    {
+      "epoch": 3.0,
+      "train_loss": 1.2384700326919555,
+      "validation_recall": 0.7285714285714285,
+      "validation_fpr": 0.14347826086956522,
+      "validation_f1": 0.6623376623376622,
+      "threshold": 0.7053426504135132
+    },
+    {
+      "epoch": 4.0,
+      "train_loss": 1.1812084255218507,
+      "validation_recall": 0.7,
+      "validation_fpr": 0.14782608695652175,
+      "validation_f1": 0.6405228758169934,
+      "threshold": 0.6889833807945251
+    },
+    {
+      "epoch": 5.0,
+      "train_loss": 1.0652056412696838,
+      "validation_recall": 0.7428571428571429,
+      "validation_fpr": 0.1391304347826087,
+      "validation_f1": 0.6753246753246753,
+      "threshold": 0.7066212296485901
+    }
+  ],
+  "model_parameters": 75940,
+  "train_sequences": 1000,
+  "validation_sequences": 300
+}

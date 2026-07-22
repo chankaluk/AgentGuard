@@ -1,0 +1,75 @@
+{
+  "threshold": 0.6320191025733948,
+  "true_positive": 97,
+  "false_positive": 46,
+  "true_negative": 254,
+  "false_negative": 3,
+  "detection_rate": 0.97,
+  "false_positive_rate": 0.15333333333333332,
+  "precision": 0.6783216783216783,
+  "f1": 0.7983539094650205,
+  "accuracy": 0.8775,
+  "roc_auc": 0.9707666666666667,
+  "sequence_count": 400,
+  "elapsed_seconds": 0.03544841706752777,
+  "mean_latency_ms": 0.08862104266881943,
+  "throughput_sequences_per_second": 11284.001743660838,
+  "process_rss_mb_after": 288.75,
+  "rss_delta_mb": 3.109375,
+  "transformer_only": {
+    "threshold": 0.6320191025733948,
+    "true_positive": 65,
+    "false_positive": 46,
+    "true_negative": 254,
+    "false_negative": 35,
+    "detection_rate": 0.65,
+    "false_positive_rate": 0.15333333333333332,
+    "precision": 0.5855855855855856,
+    "f1": 0.6161137440758293,
+    "accuracy": 0.7975,
+    "roc_auc": 0.8342333333333334
+  },
+  "ordered_rule_only": {
+    "threshold": 0.6320191025733948,
+    "true_positive": 84,
+    "false_positive": 0,
+    "true_negative": 300,
+    "false_negative": 16,
+    "detection_rate": 0.84,
+    "false_positive_rate": 0.0,
+    "precision": 1.0,
+    "f1": 0.9130434782608696,
+    "accuracy": 0.96,
+    "roc_auc": 0.92
+  },
+  "fusion_method": "max(transformer_score, ordered_rule_score)",
+  "by_scenario": {
+    "credential_access": {
+      "count": 16,
+      "detection_rate": 0.8125,
+      "mean_score": 0.6943823881447315
+    },
+    "lateral_movement": {
+      "count": 16,
+      "detection_rate": 1.0,
+      "mean_score": 0.75
+    },
+    "mass_file_tampering": {
+      "count": 24,
+      "detection_rate": 1.0,
+      "mean_score": 0.8001194084684055
+    },
+    "persistence": {
+      "count": 20,
+      "detection_rate": 1.0,
+      "mean_score": 0.7038618850708006
+    },
+    "prompt_injection_exfiltration": {
+      "count": 24,
+      "detection_rate": 1.0,
+      "mean_score": 1.0
+    }
+  },
+  "checkpoint_size_mb": 0.30394458770751953,
+  "dataset_disclosure": "Self-built reproducible hard-negative engineering benchmark. It validates the software pipeline and does not represent production deployment."
+}

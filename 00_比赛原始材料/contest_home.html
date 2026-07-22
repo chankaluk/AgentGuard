@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026第二届大学生人工智能安全竞赛</title>
+  <link rel="stylesheet" href="./style.css?v=20260705l">
+</head>
+<body>
+  <!-- Top Navigation Bar -->
+  <nav class="top-navbar">
+    <div class="nav-container">
+      <div class="nav-title">2026第二届大学生人工智能安全竞赛</div>
+      <button class="nav-menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="dropdownMenu">
+        <span class="nav-menu-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false" role="img">
+            <path d="M4 7h16M4 12h16M4 17h16"></path>
+          </svg>
+        </span>
+        <span class="nav-menu-label">赛事信息</span>
+      </button>
+    </div>
+    <!-- Dropdown Menu -->
+    <div class="dropdown-menu" id="dropdownMenu">
+      <a href="./index.html" class="dropdown-item" aria-current="page">首页</a>
+      <a href="./adversarial-participants.html" class="dropdown-item dropdown-item-primary">对抗赛参赛名单</a>
+    </div>
+  </nav>
+
+  <!-- 对抗赛参赛名单公示入口 -->
+  <section class="announcement-strip" aria-label="对抗赛参赛名单公示">
+    <div class="container announcement-card">
+      <div class="announcement-copy">
+        <span class="announcement-badge">公示</span>
+        <p>2026第二届大学生人工智能安全竞赛对抗赛参赛名单已公布，请点击页面右上角“赛事信息”菜单查看；如有疑问请联系组委会。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 顶部导航 -->
+  <!-- <nav class="navbar">
+    <div class="container">
+      <div class="logo">2026第二届大学生人工智能安全竞赛</div>
+      <ul class="nav-links">
+        <li><a href="#home">首页</a></li>
+        <li><a href="#about">作品赛报名通道</a></li>
+        <li><a href="#rule">对抗赛报名通道</a></li>
+      </ul>
+    </div>
+  </nav> -->
+
+  <!-- 首页banner -->
+  <section id="home" class="banner">
+    <div class="container">
+      <h1>2026第二届大学生人工智能安全竞赛</h1>
+      <p>探索智能 · 创新未来</p>
+
+      <!-- 报名按钮 → 点击跳转到外部链接 -->
+      <div class="button-group">
+        <div class="button-row">
+          <button type="button" class="btn btn-secondary btn-disabled" disabled>
+            作品赛报名
+          </button>
+        </div>
+        <div class="button-row">
+          <a href="https://wj.sjtu.edu.cn/q/kCBu6S52" target="_blank" class="btn btn-primary">
+            作品赛作品提交
+          </a>
+        </div>
+
+        <div class="button-row">
+          <button type="button" class="btn btn-secondary btn-disabled" disabled>
+            对抗赛报名
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 竞赛介绍 -->
+  <section id="about" class="section">
+    <div class="container content-container">
+      <h2>竞赛介绍</h2>
+      <p>为贯彻落实国家关于人工智能安全的战略部署，落实"加强人工智能安全等方面工作"的重要指示，有效应对人工智能技术在金融、电力、低空、工业、医疗、智慧城市等关键领域规模化应用带来的数据投毒、模型逆向、隐私窃取、版权滥用、提示注入、后门攻击等新型安全风险，紧扣《网络安全法》《数据安全法》《个人信息保护法》《生成式人工智能服务管理暂行办法》等最新政策与监管要求，在2025第一届大学生人工智能安全竞赛成功举办的基础上，特举办2026第二届大学生人工智能安全竞赛。本届竞赛延续作品赛与对抗赛两大赛制，紧贴国家关键行业安全需求，全面升级赛题场景、技术体系与评价标准，着力提升大学生创新实践能力、实战攻防能力与合规安全意识，加快选拔储备高素质人工智能安全专业人才，促进产学研用协同创新，支撑我国人工智能产业安全、健康、有序发展。</p>
+      <div class="organizer-card" aria-labelledby="organizer-title">
+        <h3 id="organizer-title">一、竞赛组织单位</h3>
+        <dl class="organizer-list">
+          <div class="organizer-row">
+            <dt>（一）主办单位</dt>
+            <dd>中国信息协会</dd>
+          </div>
+          <div class="organizer-row">
+            <dt>（二）承办单位</dt>
+            <dd>上海交通大学、天融信科技集团、中国信息协会教育分会、中国信息协会信息安全专业委员会</dd>
+          </div>
+          <div class="organizer-row">
+            <dt>（三）协办单位</dt>
+            <dd>北京邮电大学、中关村科学城软件和信息服务产业专委会、中国人工智能学会人工智能与安全专业委员会、上海鹏越惊虹信息技术发展有限公司、中国电子商会数字教育委员会、北京极智信科技有限公司</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- 参赛对象 -->
+  <section id="participants" class="section bg-light">
+    <div class="container content-container">
+      <h2>参赛对象</h2>
+      <p>全国具有正式学籍的全日制在校大学生（含本科生、专科生，不含研究生）。学生可自行组队参加，每支参赛队不超过4名学生（包括1名组长），参赛学生专业不限。每支参赛队限指定1名指导教师，每名学生限参加1支参赛队。各高校作品赛参赛队数不限，对抗赛参赛队数限3支，不允许跨校组队。</p>
+    </div>
+  </section>
+
+  <!-- 竞赛规则 -->
+  <section id="rule" class="section">
+    <div class="container content-container">
+      <h2>比赛内容</h2>
+      <div class="content-card">
+        <p class="section-lead">（一）人工智能安全作品赛</p>
+
+        <p>作品赛面向人工智能安全技术与应用设计方向，鼓励参赛队围绕人工智能安全中的实际问题开展方案设计、系统开发、测试验证与作品展示。作品赛分为两个赛道：</p>
+
+        <div class="track-list">
+          <div class="track-item">
+            <h3>开放式自主命题作品赛</h3>
+            <p>参赛队自主命题、自主设计，作品内容可围绕 AI 内生安全、AI 应用安全、AI 赋能安全、AI 衍生安全等方向展开，形成具有创新性、实用性和可展示性的参赛作品。</p>
+          </div>
+
+          <div class="track-item">
+            <h3>定向式专项命题作品赛</h3>
+            <p>参赛队须从组委会发布的定向式专项命题中选择 1 道完成作品设计与实现。本赛道聚焦人工智能安全实战应用方向，共设置 5 道专业命题，覆盖大模型内容风控、越狱测试、Web 攻防、异常行为识别、DNS 隧道检测等技术领域。</p>
+          </div>
+        </div>
+
+        <p>参赛作品须符合对应作品赛参赛指南中的相关要求。</p>
+      </div>
+
+      <div class="content-card">
+        <p class="section-lead">（二）人工智能安全对抗赛</p>
+
+        <p>对抗赛聚焦垂直领域 AI 安全场景，通过模拟真实环境中的攻防对抗任务，考察参赛队对人工智能安全风险的识别、防护与处置能力。</p>
+
+        <p>比赛设置 投毒检测、模型逆向防御、模型水印检测（模型版权保护） 三个靶场。参赛队需在竞赛平台中根据任务要求完成防御算法代码优化与提交，平台自动运行并评分，最终根据各靶场成绩综合排名。</p>
+
+        <p>参赛队伍须符合对抗赛参赛指南中的相关要求。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 时间安排 -->
+  <section id="schedule" class="section bg-light">
+    <div class="container content-container">
+      <h2>时间安排</h2>
+      <div class="schedule-grid">
+        <div class="schedule-card">
+          <p class="section-lead">（一）人工智能安全作品赛</p>
+          <p>报名：6月1日—7月1日</p>
+          <p>在线提交作品：7月2日—8月2日</p>
+          <p>初赛名单公布：8月3日</p>
+          <p>初赛评审：8月5日—8月15日</p>
+          <p>决赛名单公布：8月16日</p>
+          <p>线下决赛会评：8月20日报到，8月21日—22日决赛</p>
+          <p>颁奖：8月23日</p>
+        </div>
+
+        <div class="schedule-card">
+          <p class="section-lead">（二）人工智能安全对抗赛</p>
+          <p>报名及资格审核：6月16日—30日</p>
+          <p>参赛名单公布：7月5日</p>
+          <p>赛前辅导：7月6日—12日</p>
+          <p>线下决赛：8月21日报到，8月22日决赛</p>
+          <p>颁奖：8月23日</p>
+        </div>
+      </div>
+      <div class="schedule-location-card" aria-label="决赛地点">
+        <h3>决赛地点</h3>
+        <p>作品赛、对抗赛线下决赛举办于<span class="location-address">上海交通大学闵行校区</span>，详细地址：<span class="location-address">上海市闵行区东川路 800 号</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 报名须知 -->
+  <section id="notice" class="section">
+    <div class="container content-container">
+      <h2>报名须知</h2>
+      <div class="notice-box">
+        <p>请各高校于7月1日前填写“高校联络教师登记表”（详见附件，联络教师负责本校竞赛相关事宜），并将电子版和盖章纸质版扫描件发至组委会秘书处邮箱xieyi233@sjtu.edu.cn。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 附件下载 -->
+  <section id="attachments" class="section bg-light">
+    <div class="container content-container">
+      <div class="attachments-card" aria-labelledby="attachments-title">
+        <h2 id="attachments-title" class="attachments-heading">附件：</h2>
+        <ol class="attachment-list">
+          <li><a href="./attachments/open-track-guide.pdf" download="开放式自主命题作品赛参赛指南.pdf">开放式自主命题作品赛参赛指南</a></li>
+          <li><a href="./attachments/directed-track-guide.pdf" download="定向式专项命题作品赛参赛指南.pdf">定向式专项命题作品赛参赛指南</a></li>
+          <li><a href="./attachments/adversarial-guide.pdf" download="对抗赛参赛指南.pdf">对抗赛参赛指南</a></li>
+          <li><a href="./attachments/teacher-registration-form.docx" download="高校联络教师登记表.docx">高校联络教师登记表</a></li>
+          <li><a href="./attachments/originality-declaration.docx" download="作品原创性声明.docx">作品原创性声明</a></li>
+          <li><a href="./attachments/work-report-template.docx" download="作品报告（模板）.docx">作品报告（模板）</a></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- 底部 -->
+  <footer>
+    <div class="container">
+      <p>上海交通大学 © 2026 版权所有  沪交ICP备20260117</p>
+    </div>
+  </footer>
+
+  <script src="./script.js?v=20260706a"></script>
+</body>
+</html>

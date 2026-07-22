@@ -1,0 +1,20 @@
+{
+  "description": "Wazuh/Falco style security alert to AgentGuard event mapping example. This file is a template and contains no real alert data.",
+  "timestamp": "timestamp",
+  "entity_id": "agent.id_or_host_user",
+  "source": "host",
+  "event_type": "alert",
+  "action": "rule.action_or_category",
+  "object_type": "rule.group_or_mitre_tactic",
+  "object_name": "rule.id_or_rule_name",
+  "result": "fired",
+  "optional_fields": {
+    "scenario": "mitre.technique",
+    "risk_hint": "normalized_rule_level"
+  },
+  "normalization_notes": [
+    "Use alert events as evidence and rule features; do not overwrite model scores.",
+    "Keep raw alert JSON only after removing IPs, accounts, paths, and secrets.",
+    "Map MITRE ATT&CK tactics into explanation text for analyst review."
+  ]
+}

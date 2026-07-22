@@ -50,12 +50,17 @@ scripts/train.py                     本地训练权重
 scripts/evaluate.py                  评测、告警和实验图
 scripts/generate_submission_docs.py  生成使用说明等材料
 scripts/build_report_from_template.py 基于官方模板生成作品报告
-scripts/verify_project.py            最终项目结构与提交物验收scripts/package_project.py           生成完整提交压缩包与哈希
+scripts/verify_project.py            最终项目结构与提交物验收
+scripts/package_project.py           生成完整提交压缩包与哈希
 tests/                               自动化测试
 web/                                 本地演示台
 artifacts/agentguard.pt              本地训练权重
-submission/                          最终提交材料
+submission/                          最终提交材料与完整包
 docs/09_模型权重与依赖说明.md        权重来源、SHA-256 与依赖版本
+docs/10_前沿方案对照与补强路线.md    前沿论文、成熟 GitHub 工程和补强路线
+docs/11_评委通俗讲解稿.md            给评委解释项目的 30 秒/2 分钟话术
+docs/12_三类真实补充数据输入输出说明.md 本机正常、可控安全测试、公共样本输入输出
+configs/*_mapping.example.json       Agent trace、osquery、Wazuh/Falco 接入映射模板
 ```
 
 原始比赛材料保留在 `00_比赛原始材料/`，其中定向赛资料不适用于本自主命题项目，不应作为项目指标或数据来源。
@@ -72,7 +77,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\setup_env.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -File .\run_all.ps1
 ```
 
-`setup_env.ps1` 创建 `.venv` 并安装 `requirements.txt` 中的精确版本。`run_all.ps1` 依次执行数据生成、基线、训练、评估、测试、材料生成、项目验收与打包；任一环节失败即停止。
+`setup_env.ps1` 创建 `.venv` 并安装 `requirements.txt` 中的精确版本。`run_all.ps1` 依次执行数据生成、基线、训练、评测、测试、材料生成、项目验收与打包；任一环节失败即停止。
 
 macOS：
 
@@ -92,7 +97,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\run_demo.ps1
 
 macOS 执行 `./run_demo.sh`。
 
-浏览器访问 `http://127.0.0.1:8080`。服务默认只监听本机。若 8080 被占用，Windows 可运行 `.\.venv\Scripts\python.exe scripts\serve.py --port 8081`，macOS 可运行 `./run_demo.sh --port 8081`。
+浏览器访问 `http://127.0.0.1:8080`。服务默认仅监听本机。若 8080 被占用，Windows 可运行 `.\.venv\Scripts\python.exe scripts\serve.py --port 8081`，macOS 可运行 `./run_demo.sh --port 8081`。
 
 ## 6. 重新生成与验收
 
@@ -118,21 +123,35 @@ macOS 以下各命令将 `.\.venv\Scripts\python.exe` 替换为 `.venv/bin/pytho
 .\.venv\Scripts\python.exe scripts\package_project.py
 ```
 
-`submission/答辩PPT_AgentGuard_自主命题最终版.pptx` 为可选提交物；材料脚本只清除其作者元数据，不重建幻灯片内容。作品报告页脚使用 Word 的 `PAGE/NUMPAGES` 动态域，打开后如显示未刷新请按 `Ctrl+A`、`F9` 更新全部域。
+`submission/答辩PPT_AgentGuard_自主命题最终版.pptx` 为可选提交物；材料脚本只清除其作者元数据，不重建幻灯片内容。作品报告页脚使用 Word 的 `PAGE/NUMPAGES` 动态域，打开后如显示未刷新，请按 `Ctrl+A`、`F9` 更新全部域。
 
-## 7. 已知限制
+## 7. 最终材料与人工待办
+
+最终以项目根目录 `AgentGuard_完整参赛项目.zip` 为交付入口，并用 `submission/完整包_SHA256.json` 校验。主要材料包括作品报告、答辩 PPT、带四类界面证据的系统使用说明、原创性声明、最终提交清单以及源码、模型、测试和实验产物。
+
+提交前必须人工完成：
+
+- 填写报告电子邮箱和日期；
+- 按比赛要求签署、盖章原创性声明；
+- 用 Microsoft Word 打开报告，更新目录和页码域并逐页检查换页；
+- 用 PowerPoint 全屏检查字体、图片、动画或视频兼容性；
+- 按官网当届最新通知复核匿名、命名、大小和提交渠道；
+- 队员逐文件理解并如实披露 AI 辅助内容。
+
+## 8. 已知限制
 
 - 数据全部为自建模板化工程基准，规模有限，尚无授权真实环境轨迹验证。
 - Transformer 单模型在场景留出下仍有明显泛化不足；混合结果很大程度受透明规则贡献。
 - 当前混合系统误报率为 15.33%，不宜直接用于自动阻断。
 - 注意力与下一事件惊异度是复核线索，不构成因果解释。
 - JSONL 适配层仍需针对真实 EDR、审计或 Agent 框架字段定制。
+- 已新增 Agent trace、osquery、Wazuh/Falco 映射模板，并补充本机正常、可控安全测试、Loghub 公共样本三类输入；这些数据用于接入证明，不替代 `data/demo` 的指标。
 - 生产化还需身份认证、TLS、权限隔离、日志脱敏、审计、漂移监控和高并发压力测试。
 
-## 8. 新聊天快速指令
+## 9. 新聊天快速指令
 
 可把下面这段交给新聊天中的 AI：
 
-> 请先完整阅读 `PROJECT_HANDOFF.md`、`README.md`、项目规则和踩坑日记，再检查 `git status`、`IMPLEMENTATION_STATUS.md`、`artifacts/evaluation/metrics.json` 与现有测试。项目是自主命题赛道 AgentGuard，不使用组委会数据。以当前文件为事实源，只做最小必要改动；修改后运行全部测试、`scripts/verify_project.py`，重新生成并校验提交包，不要把 97% 误写成 Transformer 单模型成绩。
+> 请先完整阅读 `PROJECT_HANDOFF.md`、`README.md`、`docs/10_前沿方案对照与补强路线.md`、`docs/11_评委通俗讲解稿.md`、`docs/12_三类真实补充数据输入输出说明.md`，再检查 `git status`、`IMPLEMENTATION_STATUS.md`、`artifacts/evaluation/metrics.json` 与现有测试。项目是自主命题赛道 AgentGuard，不使用组委会数据。以当前文件为事实源，只做最小必要改动；修改后运行全部测试、`scripts/verify_project.py`，重新生成并校验提交包，不要把 97% 误写成 Transformer 单模型成绩。
 
-新聊天若要重新部署，应先执行第 5 节命令；若只继续优化，应先读取本节列出的事实源和 `docs/superpowers/plans/2026-07-22-agentguard-material-checklist-optimization.md`，再确认未完成事项。
+新聊天若要重新部署，应先执行第 5 节命令；若只继续优化，应先读取本节列出的事实源，再确认未完成事项。内部历史计划目录不进入最终提交包。

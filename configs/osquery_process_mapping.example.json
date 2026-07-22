@@ -1,0 +1,30 @@
+{
+  "description": "osquery process/network rows to AgentGuard event mapping example. This file is a template and contains no real host data.",
+  "timestamp": "time",
+  "entity_id": "host_identifier_or_process_tree",
+  "source": "host",
+  "event_type": "table_name",
+  "action": "event_action",
+  "object_type": "target_kind",
+  "object_name": "target_name",
+  "result": "success",
+  "normalization_examples": {
+    "process_events": {
+      "event_type": "process",
+      "action": "start",
+      "object_type": "process",
+      "object_name": "name_or_hash_prefix"
+    },
+    "socket_events": {
+      "event_type": "network",
+      "action": "connect",
+      "object_type": "ip",
+      "object_name": "remote_address_bucket"
+    }
+  },
+  "privacy_notes": [
+    "Hash or bucket full command lines before submission.",
+    "Replace usernames and hostnames with salted pseudonyms.",
+    "Keep the salt outside the competition package."
+  ]
+}

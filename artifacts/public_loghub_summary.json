@@ -1,0 +1,8 @@
+{
+  "input_source": "data/public/HDFS_2k.log",
+  "output": "data/public/loghub_hdfs_sample.jsonl",
+  "event_count": 200,
+  "dataset": "Loghub HDFS_2k public sample",
+  "label_policy": "unlabeled format-validation sample; labels are set to 0 and must not be reported as detection accuracy",
+  "source_url": "https://github.com/logpai/loghub/tree/master/HDFS"
+}

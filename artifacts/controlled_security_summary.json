@@ -1,0 +1,8 @@
+{
+  "input": "data/local/controlled_security_test.jsonl",
+  "event_count": 12,
+  "normal_entities": 1,
+  "controlled_attack_entities": 1,
+  "safety": "logs are simulated; no exploit, credential access, network scan, or upload is executed",
+  "expected_rule_hit": "controlled attack contains read-secret -> network-connect -> upload sequence"
+}

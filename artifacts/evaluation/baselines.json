@@ -1,0 +1,33 @@
+{
+  "data_scope": "自建可复现增强工程基准",
+  "sequence_count": 400,
+  "attack_only_token_lookup": {
+    "threshold": 0.5,
+    "true_positive": 0,
+    "false_positive": 0,
+    "true_negative": 300,
+    "false_negative": 100,
+    "detection_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "precision": 0.0,
+    "f1": 0.0,
+    "accuracy": 0.75,
+    "roc_auc": 0.5,
+    "attack_only_token_count": 0,
+    "baseline": "attack_only_token_lookup"
+  },
+  "ordered_transparent_rules": {
+    "threshold": 0.5,
+    "true_positive": 84,
+    "false_positive": 0,
+    "true_negative": 300,
+    "false_negative": 16,
+    "detection_rate": 0.84,
+    "false_positive_rate": 0.0,
+    "precision": 1.0,
+    "f1": 0.9130434782608696,
+    "accuracy": 0.96,
+    "roc_auc": 0.92,
+    "baseline": "ordered_transparent_rules"
+  }
+}

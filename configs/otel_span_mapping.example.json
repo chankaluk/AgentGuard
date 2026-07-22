@@ -1,0 +1,21 @@
+{
+  "description": "OpenTelemetry/LLM trace span to AgentGuard event mapping example. This file is a template and contains no real trace data.",
+  "timestamp": "start_time",
+  "entity_id": "trace_id",
+  "source": "agent",
+  "event_type": "span_kind",
+  "action": "operation_name",
+  "object_type": "llm_or_tool_type",
+  "object_name": "tool_name",
+  "result": "status_code",
+  "optional_fields": {
+    "scenario": "evaluation_case",
+    "label": "security_label"
+  },
+  "normalization_notes": [
+    "Map LLM call spans to event_type=model.",
+    "Map tool/function spans to event_type=tool.",
+    "Map retrieval or memory spans to event_type=memory.",
+    "Do not store prompt text, credentials, cookies, or API keys in object_name."
+  ]
+}

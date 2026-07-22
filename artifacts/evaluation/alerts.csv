@@ -1,0 +1,144 @@
+﻿entity_id,score,model_score,rule_score,threshold,severity,explanation,mapped_tactics
+test-agent-00000,0.75,0.139267,0.75,0.632019,high,先进行内网探测，随后远程启动未知进程。,Discovery / Lateral Movement
+test-agent-00004,0.745036,0.745036,0.0,0.632019,high,敏感凭据读取后紧接外传动作，呈现数据窃取链路。,Credential Access / Exfiltration
+test-agent-00006,0.75,0.121002,0.75,0.632019,high,先进行内网探测，随后远程启动未知进程。,Discovery / Lateral Movement
+test-agent-00008,0.8,0.781347,0.8,0.632019,high,短序列内发生批量文件改写与备份删除。,Impact
+test-agent-00012,0.638879,0.638879,0.0,0.632019,medium,该行为序列相对训练基线具有较高上下文偏离，关键事件见证据列表。,Behavioral Anomaly
+test-agent-00016,1.0,0.808445,1.0,0.632019,critical,敏感凭据读取后紧接外传动作，呈现数据窃取链路；不可信内容输入后发生权限提升，疑似提示注入导致工具劫持。,Credential Access / Exfiltration; Prompt Injection / Privilege Escalation
+test-agent-00019,0.8,0.704847,0.8,0.632019,high,短序列内发生批量文件改写与备份删除。,Impact
+test-agent-00020,0.691427,0.691427,0.0,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00021,1.0,0.802976,1.0,0.632019,critical,敏感凭据读取后紧接外传动作，呈现数据窃取链路；不可信内容输入后发生权限提升，疑似提示注入导致工具劫持。,Credential Access / Exfiltration; Prompt Injection / Privilege Escalation
+test-agent-00023,0.75,0.134816,0.75,0.632019,high,先进行内网探测，随后远程启动未知进程。,Discovery / Lateral Movement
+test-agent-00027,1.0,0.810299,1.0,0.632019,critical,敏感凭据读取后紧接外传动作，呈现数据窃取链路；不可信内容输入后发生权限提升，疑似提示注入导致工具劫持。,Credential Access / Exfiltration; Prompt Injection / Privilege Escalation
+test-agent-00028,0.75,0.129603,0.75,0.632019,high,先进行内网探测，随后远程启动未知进程。,Discovery / Lateral Movement
+test-agent-00033,1.0,0.731598,1.0,0.632019,critical,敏感凭据读取后紧接外传动作，呈现数据窃取链路；不可信内容输入后发生权限提升，疑似提示注入导致工具劫持。,Credential Access / Exfiltration; Prompt Injection / Privilege Escalation
+test-agent-00036,0.661009,0.661009,0.0,0.632019,medium,敏感凭据读取后紧接外传动作，呈现数据窃取链路。,Credential Access / Exfiltration
+test-agent-00040,0.658045,0.658045,0.0,0.632019,medium,该行为序列相对训练基线具有较高上下文偏离，关键事件见证据列表。,Behavioral Anomaly
+test-agent-00042,1.0,0.799994,1.0,0.632019,critical,敏感凭据读取后紧接外传动作，呈现数据窃取链路；不可信内容输入后发生权限提升，疑似提示注入导致工具劫持。,Credential Access / Exfiltration; Prompt Injection / Privilege Escalation
+test-agent-00044,0.7,0.605019,0.7,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00048,0.652889,0.652889,0.0,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00051,0.7,0.622777,0.7,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00052,0.639185,0.639185,0.0,0.632019,medium,该行为序列相对训练基线具有较高上下文偏离，关键事件见证据列表。,Behavioral Anomaly
+test-agent-00054,1.0,0.807709,1.0,0.632019,critical,敏感凭据读取后紧接外传动作，呈现数据窃取链路；不可信内容输入后发生权限提升，疑似提示注入导致工具劫持。,Credential Access / Exfiltration; Prompt Injection / Privilege Escalation
+test-agent-00057,0.75,0.12048,0.75,0.632019,high,先进行内网探测，随后远程启动未知进程。,Discovery / Lateral Movement
+test-agent-00060,0.752109,0.752109,0.0,0.632019,high,敏感凭据读取后紧接外传动作，呈现数据窃取链路。,Credential Access / Exfiltration
+test-agent-00061,0.8,0.664242,0.8,0.632019,high,短序列内发生批量文件改写与备份删除。,Impact
+test-agent-00064,0.8,0.772157,0.8,0.632019,high,短序列内发生批量文件改写与备份删除。,Impact
+test-agent-00069,0.7,0.697586,0.7,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00070,0.8,0.745411,0.8,0.632019,high,短序列内发生批量文件改写与备份删除。,Impact
+test-agent-00071,0.8,0.594348,0.8,0.632019,high,短序列内发生批量文件改写与备份删除。,Impact
+test-agent-00072,0.722767,0.722767,0.0,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00073,0.8,0.716198,0.8,0.632019,high,短序列内发生批量文件改写与备份删除。,Impact
+test-agent-00076,1.0,0.800982,1.0,0.632019,critical,敏感凭据读取后紧接外传动作，呈现数据窃取链路；不可信内容输入后发生权限提升，疑似提示注入导致工具劫持。,Credential Access / Exfiltration; Prompt Injection / Privilege Escalation
+test-agent-00078,0.8,0.799534,0.8,0.632019,high,短序列内发生批量文件改写与备份删除。,Impact
+test-agent-00086,1.0,0.800057,1.0,0.632019,critical,敏感凭据读取后紧接外传动作，呈现数据窃取链路；不可信内容输入后发生权限提升，疑似提示注入导致工具劫持。,Credential Access / Exfiltration; Prompt Injection / Privilege Escalation
+test-agent-00087,0.8,0.681113,0.8,0.632019,high,短序列内发生批量文件改写与备份删除。,Impact
+test-agent-00088,0.668081,0.668081,0.0,0.632019,medium,敏感凭据读取后紧接外传动作，呈现数据窃取链路。,Credential Access / Exfiltration
+test-agent-00091,1.0,0.804518,1.0,0.632019,critical,敏感凭据读取后紧接外传动作，呈现数据窃取链路；不可信内容输入后发生权限提升，疑似提示注入导致工具劫持。,Credential Access / Exfiltration; Prompt Injection / Privilege Escalation
+test-agent-00092,0.784206,0.784206,0.0,0.632019,high,该行为序列相对训练基线具有较高上下文偏离，关键事件见证据列表。,Behavioral Anomaly
+test-agent-00096,0.774393,0.774393,0.0,0.632019,high,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00103,0.7,0.62532,0.7,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00107,1.0,0.699971,1.0,0.632019,critical,敏感凭据读取后紧接外传动作，呈现数据窃取链路；不可信内容输入后发生权限提升，疑似提示注入导致工具劫持。,Credential Access / Exfiltration; Prompt Injection / Privilege Escalation
+test-agent-00108,0.646948,0.646948,0.0,0.632019,medium,敏感凭据读取后紧接外传动作，呈现数据窃取链路。,Credential Access / Exfiltration
+test-agent-00112,0.735388,0.735388,0.0,0.632019,medium,该行为序列相对训练基线具有较高上下文偏离，关键事件见证据列表。,Behavioral Anomaly
+test-agent-00113,1.0,0.773376,1.0,0.632019,critical,敏感凭据读取后紧接外传动作，呈现数据窃取链路；不可信内容输入后发生权限提升，疑似提示注入导致工具劫持。,Credential Access / Exfiltration; Prompt Injection / Privilege Escalation
+test-agent-00114,0.75,0.130519,0.75,0.632019,high,先进行内网探测，随后远程启动未知进程。,Discovery / Lateral Movement
+test-agent-00116,0.750252,0.750252,0.0,0.632019,high,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00125,0.716795,0.716795,0.0,0.632019,medium,访问浏览器凭据并尝试读取凭据进程内存。,Credential Access
+test-agent-00128,0.703401,0.703401,0.0,0.632019,medium,敏感凭据读取后紧接外传动作，呈现数据窃取链路。,Credential Access / Exfiltration
+test-agent-00129,0.75,0.154764,0.75,0.632019,high,先进行内网探测，随后远程启动未知进程。,Discovery / Lateral Movement
+test-agent-00130,0.732752,0.732752,0.0,0.632019,medium,访问浏览器凭据并尝试读取凭据进程内存。,Credential Access
+test-agent-00132,1.0,0.754152,1.0,0.632019,critical,敏感凭据读取后紧接外传动作，呈现数据窃取链路；不可信内容输入后发生权限提升，疑似提示注入导致工具劫持。,Credential Access / Exfiltration; Prompt Injection / Privilege Escalation
+test-agent-00136,0.715421,0.715421,0.0,0.632019,medium,该行为序列相对训练基线具有较高上下文偏离，关键事件见证据列表。,Behavioral Anomaly
+test-agent-00140,0.671826,0.671826,0.0,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00144,0.75,0.130503,0.75,0.632019,high,先进行内网探测，随后远程启动未知进程。,Discovery / Lateral Movement
+test-agent-00145,0.771038,0.771038,0.0,0.632019,high,访问浏览器凭据并尝试读取凭据进程内存。,Credential Access
+test-agent-00151,0.7,0.641681,0.7,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00152,0.73981,0.73981,0.0,0.632019,medium,访问浏览器凭据并尝试读取凭据进程内存。,Credential Access
+test-agent-00160,0.703242,0.703242,0.0,0.632019,medium,敏感凭据读取后紧接外传动作，呈现数据窃取链路。,Credential Access / Exfiltration
+test-agent-00164,0.752298,0.752298,0.0,0.632019,high,该行为序列相对训练基线具有较高上下文偏离，关键事件见证据列表。,Behavioral Anomaly
+test-agent-00166,0.8,0.598514,0.8,0.632019,high,短序列内发生批量文件改写与备份删除。,Impact
+test-agent-00168,0.655325,0.655325,0.0,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00172,0.637201,0.637201,0.0,0.632019,medium,该行为序列相对训练基线具有较高上下文偏离，关键事件见证据列表。,Behavioral Anomaly
+test-agent-00176,0.75,0.150047,0.75,0.632019,high,先进行内网探测，随后远程启动未知进程。,Discovery / Lateral Movement
+test-agent-00177,0.680727,0.680727,0.0,0.632019,medium,访问浏览器凭据并尝试读取凭据进程内存。,Credential Access
+test-agent-00179,1.0,0.800897,1.0,0.632019,critical,敏感凭据读取后紧接外传动作，呈现数据窃取链路；不可信内容输入后发生权限提升，疑似提示注入导致工具劫持。,Credential Access / Exfiltration; Prompt Injection / Privilege Escalation
+test-agent-00184,0.649939,0.649939,0.0,0.632019,medium,敏感凭据读取后紧接外传动作，呈现数据窃取链路。,Credential Access / Exfiltration
+test-agent-00188,0.720797,0.720797,0.0,0.632019,medium,该行为序列相对训练基线具有较高上下文偏离，关键事件见证据列表。,Behavioral Anomaly
+test-agent-00196,1.0,0.720784,1.0,0.632019,critical,敏感凭据读取后紧接外传动作，呈现数据窃取链路；不可信内容输入后发生权限提升，疑似提示注入导致工具劫持。,Credential Access / Exfiltration; Prompt Injection / Privilege Escalation
+test-agent-00197,0.7,0.609324,0.7,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00199,0.8,0.594982,0.8,0.632019,high,短序列内发生批量文件改写与备份删除。,Impact
+test-agent-00200,1.0,0.795527,1.0,0.632019,critical,敏感凭据读取后紧接外传动作，呈现数据窃取链路；不可信内容输入后发生权限提升，疑似提示注入导致工具劫持。,Credential Access / Exfiltration; Prompt Injection / Privilege Escalation
+test-agent-00201,0.7,0.608495,0.7,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00203,0.8,0.648937,0.8,0.632019,high,短序列内发生批量文件改写与备份删除。,Impact
+test-agent-00204,0.655275,0.655275,0.0,0.632019,medium,该行为序列相对训练基线具有较高上下文偏离，关键事件见证据列表。,Behavioral Anomaly
+test-agent-00206,1.0,0.804199,1.0,0.632019,critical,敏感凭据读取后紧接外传动作，呈现数据窃取链路；不可信内容输入后发生权限提升，疑似提示注入导致工具劫持。,Credential Access / Exfiltration; Prompt Injection / Privilege Escalation
+test-agent-00208,0.8,0.790579,0.8,0.632019,high,短序列内发生批量文件改写与备份删除。,Impact
+test-agent-00213,0.7,0.621873,0.7,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00214,0.75,0.128001,0.75,0.632019,high,先进行内网探测，随后远程启动未知进程。,Discovery / Lateral Movement
+test-agent-00217,1.0,0.803422,1.0,0.632019,critical,敏感凭据读取后紧接外传动作，呈现数据窃取链路；不可信内容输入后发生权限提升，疑似提示注入导致工具劫持。,Credential Access / Exfiltration; Prompt Injection / Privilege Escalation
+test-agent-00220,0.641859,0.641859,0.0,0.632019,medium,该行为序列相对训练基线具有较高上下文偏离，关键事件见证据列表。,Behavioral Anomaly
+test-agent-00221,0.707261,0.707261,0.0,0.632019,medium,访问浏览器凭据并尝试读取凭据进程内存。,Credential Access
+test-agent-00222,0.802866,0.802866,0.8,0.632019,high,短序列内发生批量文件改写与备份删除。,Impact
+test-agent-00224,0.670843,0.670843,0.0,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00227,1.0,0.750556,1.0,0.632019,critical,敏感凭据读取后紧接外传动作，呈现数据窃取链路；不可信内容输入后发生权限提升，疑似提示注入导致工具劫持。,Credential Access / Exfiltration; Prompt Injection / Privilege Escalation
+test-agent-00228,1.0,0.809182,1.0,0.632019,critical,敏感凭据读取后紧接外传动作，呈现数据窃取链路；不可信内容输入后发生权限提升，疑似提示注入导致工具劫持。,Credential Access / Exfiltration; Prompt Injection / Privilege Escalation
+test-agent-00230,0.8,0.596606,0.8,0.632019,high,短序列内发生批量文件改写与备份删除。,Impact
+test-agent-00232,0.8,0.685941,0.8,0.632019,high,短序列内发生批量文件改写与备份删除。,Impact
+test-agent-00241,0.75,0.133156,0.75,0.632019,high,先进行内网探测，随后远程启动未知进程。,Discovery / Lateral Movement
+test-agent-00244,0.7642,0.7642,0.0,0.632019,high,访问浏览器凭据并尝试读取凭据进程内存。,Credential Access
+test-agent-00245,0.690953,0.690953,0.0,0.632019,medium,访问浏览器凭据并尝试读取凭据进程内存。,Credential Access
+test-agent-00248,1.0,0.761749,1.0,0.632019,critical,敏感凭据读取后紧接外传动作，呈现数据窃取链路；不可信内容输入后发生权限提升，疑似提示注入导致工具劫持。,Credential Access / Exfiltration; Prompt Injection / Privilege Escalation
+test-agent-00252,0.7,0.622009,0.7,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00253,0.7,0.65802,0.7,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00256,0.668016,0.668016,0.0,0.632019,medium,敏感凭据读取后紧接外传动作，呈现数据窃取链路。,Credential Access / Exfiltration
+test-agent-00260,0.6478,0.6478,0.0,0.632019,medium,该行为序列相对训练基线具有较高上下文偏离，关键事件见证据列表。,Behavioral Anomaly
+test-agent-00264,0.747712,0.747712,0.0,0.632019,high,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00265,0.736917,0.736917,0.7,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00266,0.75,0.226968,0.75,0.632019,high,先进行内网探测，随后远程启动未知进程。,Discovery / Lateral Movement
+test-agent-00268,0.7,0.604726,0.7,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00271,0.8,0.594216,0.8,0.632019,high,短序列内发生批量文件改写与备份删除。,Impact
+test-agent-00272,0.641398,0.641398,0.0,0.632019,medium,该行为序列相对训练基线具有较高上下文偏离，关键事件见证据列表。,Behavioral Anomaly
+test-agent-00275,0.8,0.714078,0.8,0.632019,high,短序列内发生批量文件改写与备份删除。,Impact
+test-agent-00279,1.0,0.804205,1.0,0.632019,critical,敏感凭据读取后紧接外传动作，呈现数据窃取链路；不可信内容输入后发生权限提升，疑似提示注入导致工具劫持。,Credential Access / Exfiltration; Prompt Injection / Privilege Escalation
+test-agent-00280,0.7,0.592494,0.7,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00284,0.670019,0.670019,0.0,0.632019,medium,敏感凭据读取后紧接外传动作，呈现数据窃取链路。,Credential Access / Exfiltration
+test-agent-00286,0.74032,0.74032,0.7,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00288,0.638924,0.638924,0.0,0.632019,medium,该行为序列相对训练基线具有较高上下文偏离，关键事件见证据列表。,Behavioral Anomaly
+test-agent-00291,0.75,0.187083,0.75,0.632019,high,先进行内网探测，随后远程启动未知进程。,Discovery / Lateral Movement
+test-agent-00292,0.756103,0.756103,0.0,0.632019,high,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00294,0.7,0.653913,0.7,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00304,0.664614,0.664614,0.0,0.632019,medium,敏感凭据读取后紧接外传动作，呈现数据窃取链路。,Credential Access / Exfiltration
+test-agent-00305,1.0,0.743654,1.0,0.632019,critical,敏感凭据读取后紧接外传动作，呈现数据窃取链路；不可信内容输入后发生权限提升，疑似提示注入导致工具劫持。,Credential Access / Exfiltration; Prompt Injection / Privilege Escalation
+test-agent-00308,0.673975,0.673975,0.0,0.632019,medium,该行为序列相对训练基线具有较高上下文偏离，关键事件见证据列表。,Behavioral Anomaly
+test-agent-00312,0.664143,0.664143,0.0,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00315,0.8,0.651304,0.8,0.632019,high,短序列内发生批量文件改写与备份删除。,Impact
+test-agent-00317,0.8,0.772888,0.8,0.632019,high,短序列内发生批量文件改写与备份删除。,Impact
+test-agent-00324,0.752153,0.752153,0.0,0.632019,high,访问浏览器凭据并尝试读取凭据进程内存。,Credential Access
+test-agent-00325,0.7,0.669495,0.7,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00328,0.6384,0.6384,0.0,0.632019,medium,敏感凭据读取后紧接外传动作，呈现数据窃取链路。,Credential Access / Exfiltration
+test-agent-00332,0.706625,0.706625,0.0,0.632019,medium,该行为序列相对训练基线具有较高上下文偏离，关键事件见证据列表。,Behavioral Anomaly
+test-agent-00336,0.767685,0.767685,0.0,0.632019,high,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00348,0.7,0.632141,0.7,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00349,0.7,0.660739,0.7,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00351,0.8,0.688907,0.8,0.632019,high,短序列内发生批量文件改写与备份删除。,Impact
+test-agent-00352,0.75582,0.75582,0.0,0.632019,high,敏感凭据读取后紧接外传动作，呈现数据窃取链路。,Credential Access / Exfiltration
+test-agent-00354,0.75,0.134749,0.75,0.632019,high,先进行内网探测，随后远程启动未知进程。,Discovery / Lateral Movement
+test-agent-00355,0.7,0.633419,0.7,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00356,0.652327,0.652327,0.0,0.632019,medium,访问浏览器凭据并尝试读取凭据进程内存。,Credential Access
+test-agent-00358,0.8,0.596301,0.8,0.632019,high,短序列内发生批量文件改写与备份删除。,Impact
+test-agent-00359,0.704884,0.704884,0.0,0.632019,medium,访问浏览器凭据并尝试读取凭据进程内存。,Credential Access
+test-agent-00360,0.714826,0.714826,0.0,0.632019,medium,访问浏览器凭据并尝试读取凭据进程内存。,Credential Access
+test-agent-00361,0.64702,0.64702,0.0,0.632019,medium,访问浏览器凭据并尝试读取凭据进程内存。,Credential Access
+test-agent-00364,0.741652,0.741652,0.0,0.632019,medium,该行为序列相对训练基线具有较高上下文偏离，关键事件见证据列表。,Behavioral Anomaly
+test-agent-00368,0.65927,0.65927,0.0,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00369,0.7,0.619786,0.7,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
+test-agent-00370,0.8,0.768781,0.8,0.632019,high,短序列内发生批量文件改写与备份删除。,Impact
+test-agent-00373,1.0,0.779473,1.0,0.632019,critical,敏感凭据读取后紧接外传动作，呈现数据窃取链路；不可信内容输入后发生权限提升，疑似提示注入导致工具劫持。,Credential Access / Exfiltration; Prompt Injection / Privilege Escalation
+test-agent-00374,1.0,0.753196,1.0,0.632019,critical,敏感凭据读取后紧接外传动作，呈现数据窃取链路；不可信内容输入后发生权限提升，疑似提示注入导致工具劫持。,Credential Access / Exfiltration; Prompt Injection / Privilege Escalation
+test-agent-00380,0.681885,0.681885,0.0,0.632019,medium,敏感凭据读取后紧接外传动作，呈现数据窃取链路。,Credential Access / Exfiltration
+test-agent-00381,0.75,0.121818,0.75,0.632019,high,先进行内网探测，随后远程启动未知进程。,Discovery / Lateral Movement
+test-agent-00382,0.8,0.778398,0.8,0.632019,high,短序列内发生批量文件改写与备份删除。,Impact
+test-agent-00384,0.79183,0.79183,0.0,0.632019,high,该行为序列相对训练基线具有较高上下文偏离，关键事件见证据列表。,Behavioral Anomaly
+test-agent-00388,0.75,0.203172,0.75,0.632019,high,先进行内网探测，随后远程启动未知进程。,Discovery / Lateral Movement
+test-agent-00392,0.634809,0.634809,0.0,0.632019,medium,出现启动项注册表写入，具有持久化特征。,Persistence
