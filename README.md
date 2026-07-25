@@ -105,7 +105,7 @@ macOS 将上面命令中的 `.\.venv\Scripts\python.exe` 换成 `.venv/bin/pytho
 configs/                  模型与训练配置
 data/demo/                自建可复现增强工程基准
 src/agentguard/           数据、模型、训练、推理与解释核心代码
-scripts/                  生成、训练、评测、服务和材料脚本
+scripts/                  生成、训练、评估、服务和材料脚本
 tests/                    自动化测试
 web/                      本地可视化演示台
 artifacts/                模型、指标、告警和实验图
