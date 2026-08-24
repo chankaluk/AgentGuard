@@ -113,3 +113,4 @@ class AgentBehaviorTransformer(nn.Module):
         if return_attention:
             result["attentions"] = attentions
         return result
+

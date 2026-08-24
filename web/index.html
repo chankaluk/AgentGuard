@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AgentGuard · AI Agent 异常行为检测</title>
+  <style>
+    :root {
+      --ink: #161616;
+      --muted: #686868;
+      --paper: #f6f5ef;
+      --surface: #ffffff;
+      --line: #d9d6ca;
+      --soft: #ebe8dc;
+      --accent: #0b6bcb;
+      --accent-2: #0f8a7a;
+      --danger: #c23b3b;
+      --warn: #9b650b;
+      --shadow: 0 24px 70px rgba(16, 16, 16, .12);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(22,22,22,.045) 1px, transparent 1px) 0 0 / 72px 72px,
+        linear-gradient(0deg, rgba(22,22,22,.035) 1px, transparent 1px) 0 0 / 72px 72px,
+        var(--paper);
+      font: 14px/1.55 Inter, "Microsoft YaHei", system-ui, sans-serif;
+    }
+
+    button {
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      background: var(--ink);
+      color: var(--surface);
+      padding: 10px 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .28s ease, background .28s ease, color .28s ease, opacity .28s ease;
+    }
+    button:hover { transform: translateY(-1px); }
+    button:disabled { opacity: .55; cursor: wait; }
+
+    .ghost {
+      background: transparent;
+      color: var(--ink);
+    }
+    .ghost.active {
+      background: var(--ink);
+      color: var(--surface);
+    }
+
+    .shell { width: min(1480px, calc(100% - 48px)); margin: 0 auto; padding: 24px 0 34px; }
+    .top {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: center;
+      padding: 14px 0 18px;
+      backdrop-filter: blur(16px);
+    }
+
+    .brand {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 13px;
+      align-items: center;
+    }
+    .logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--ink);
+      color: var(--surface);
+      font: 700 18px/1 Georgia, serif;
+    }
+    .brand h1 {
+      margin: 0;
+      font: 500 24px/1.05 Georgia, "Times New Roman", serif;
+      letter-spacing: 0;
+    }
+    .brand p { margin: 4px 0 0; color: var(--muted); }
+
+    .actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+    .status { color: var(--accent-2); font-weight: 700; }
+
+    .hero {
+      min-height: 238px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(360px, .85fr);
+      gap: 28px;
+      align-items: end;
+      border-top: 1px solid var(--ink);
+      border-bottom: 1px solid var(--line);
+      padding: 34px 0 28px;
+      margin-bottom: 18px;
+    }
+    .hero h2 {
+      margin: 0;
+      max-width: 980px;
+      font: 500 clamp(42px, 7vw, 104px)/.92 Georgia, "Times New Roman", serif;
+      letter-spacing: 0;
+    }
+    .hero p {
+      margin: 0 0 7px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .hero strong { color: var(--ink); }
+    .mode-note {
+      border-left: 1px solid var(--ink);
+      padding-left: 18px;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.62);
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+    }
+    .metric { padding: 18px; border-right: 1px solid var(--line); }
+    .metric:last-child { border-right: 0; }
+    .metric .label { color: var(--muted); font-size: 12px; text-transform: uppercase; }
+    .metric .value { font: 500 44px/1 Georgia, "Times New Roman", serif; margin-top: 10px; }
+    .metric .hint { color: var(--muted); margin-top: 4px; font-size: 12px; }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(420px, 1.1fr);
+      gap: 18px;
+      align-items: start;
+    }
+    .panel {
+      background: rgba(255,255,255,.72);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      overflow: hidden;
+    }
+    .panel h3 {
+      margin: 0;
+      font: 500 22px/1.1 Georgia, "Times New Roman", serif;
+    }
+    .head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .badge {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 9px;
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .pipeline { display: grid; gap: 10px; }
+    .stage {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 12px;
+      align-items: start;
+      border-top: 1px solid var(--line);
+      padding: 14px 0;
+    }
+    .stage b { font-size: 14px; }
+    .stage span { color: var(--muted); }
+    .step {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--ink);
+      color: var(--surface);
+      font-weight: 800;
+    }
+
+    .result-pane { transition: opacity .34s ease, transform .34s ease; }
+    .result-pane.switching { opacity: 0; transform: translateY(18px); }
+
+    .upload-strip {
+      display: grid;
+      grid-template-columns: 12px minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 0;
+      margin: 0 0 16px;
+    }
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--muted);
+    }
+    .upload-strip[data-state="busy"] .status-dot { background: var(--accent); animation: pulse 1s ease infinite; }
+    .upload-strip[data-state="success"] .status-dot { background: var(--accent-2); }
+    .upload-strip[data-state="error"] .status-dot { background: var(--danger); }
+    .upload-copy {
+      min-width: 0;
+      display: grid;
+      gap: 3px;
+    }
+    .upload-copy b,
+    .upload-copy span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .upload-copy span { color: var(--muted); font-size: 12px; }
+    .upload-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .bars { display: grid; gap: 10px; margin-bottom: 16px; }
+    .bar-row {
+      display: grid;
+      grid-template-columns: 150px 1fr 40px;
+      gap: 10px;
+      align-items: center;
+      color: var(--muted);
+    }
+    .track { height: 8px; background: var(--soft); overflow: hidden; }
+    .fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+
+    .risk-list { display: grid; gap: 10px; margin-bottom: 16px; }
+    .risk-card {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      padding: 14px;
+      transition: transform .24s ease, border-color .24s ease;
+    }
+    .risk-card:hover { transform: translateX(3px); border-color: var(--ink); }
+    .risk-card b { display: flex; justify-content: space-between; gap: 10px; }
+    .risk-card p { margin: 7px 0 0; color: var(--muted); font-size: 12px; }
+
+    .table-wrap { overflow: auto; border-top: 1px solid var(--line); }
+    table { width: 100%; border-collapse: collapse; min-width: 980px; }
+    th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--muted); font-weight: 600; font-size: 12px; }
+    td { font-size: 13px; }
+    .score { font-variant-numeric: tabular-nums; }
+    .pill { display: inline-block; min-width: 42px; text-align: center; border-radius: 999px; padding: 4px 8px; font-weight: 800; font-size: 12px; }
+    .pill.critical { color: var(--surface); background: var(--danger); }
+    .pill.high { color: var(--surface); background: var(--warn); }
+    .pill.medium { color: var(--surface); background: var(--accent); }
+    .pill.low { color: var(--muted); background: var(--soft); }
+    .critical { color: var(--danger); }
+    .empty { padding: 30px; text-align: center; color: var(--muted); }
+    .link-btn { padding: 7px 10px; border-color: var(--line); background: transparent; color: var(--ink); }
+
+    .trace-panel {
+      margin-top: 18px;
+      border-top: 1px solid var(--ink);
+      padding-top: 20px;
+      transition: opacity .38s ease, transform .38s ease;
+    }
+    .trace-panel.enter { opacity: 0; transform: translateY(18px); }
+    .trace-grid { display: grid; grid-template-columns: 330px 1fr; gap: 18px; align-items: start; }
+    .trace-summary {
+      position: sticky;
+      top: 88px;
+      background: var(--ink);
+      color: var(--surface);
+      padding: 20px;
+      min-height: 240px;
+    }
+    .trace-summary h4 {
+      margin: 0 0 16px;
+      font: 500 28px/1 Georgia, "Times New Roman", serif;
+      word-break: break-word;
+    }
+    .trace-summary p { margin: 10px 0; color: #cfcfcf; }
+    .trace-list { display: grid; gap: 12px; }
+    .trace-item {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 12px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      padding: 14px;
+      animation: rise .42s ease both;
+    }
+    .trace-num {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--soft);
+      font-weight: 800;
+    }
+    .trace-item.hit { border-color: var(--danger); box-shadow: inset 4px 0 0 var(--danger); }
+    .trace-meta { display: flex; flex-wrap: wrap; gap: 8px; color: var(--muted); font-size: 12px; margin: 6px 0; }
+    .trace-json {
+      white-space: pre-wrap;
+      word-break: break-word;
+      background: #111;
+      color: #e8e8e8;
+      padding: 11px;
+      margin: 10px 0 0;
+      font-size: 12px;
+      max-height: 220px;
+      overflow: auto;
+    }
+    .spinner {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 2px solid rgba(255,255,255,.55);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+
+    ::view-transition-old(root) { animation: fade-out .22s ease both; }
+    ::view-transition-new(root) { animation: slide-in .42s ease both; }
+    @keyframes fade-out { to { opacity: 0; transform: translateY(-8px); } }
+    @keyframes slide-in { from { opacity: 0; transform: translateY(18px); } }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes pulse { 50% { transform: scale(1.35); opacity: .6; } }
+    @keyframes rise { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 1040px) {
+      .hero, .workspace, .trace-grid { grid-template-columns: 1fr; }
+      .mode-note, .trace-summary { position: static; border-left: 0; padding-left: 0; }
+      .metrics { grid-template-columns: repeat(2, 1fr); }
+      .metric:nth-child(2) { border-right: 0; }
+    }
+    @media (max-width: 640px) {
+      .shell { width: min(100% - 28px, 1480px); padding-top: 12px; }
+      .top { align-items: flex-start; }
+      .metrics { grid-template-columns: 1fr; }
+      .metric { border-right: 0; border-bottom: 1px solid var(--line); }
+      .metric:last-child { border-bottom: 0; }
+      .actions { justify-content: flex-start; }
+      .upload-strip { grid-template-columns: 12px 1fr; }
+      .upload-actions { grid-column: 2; justify-content: flex-start; }
+      .hero h2 { font-size: 42px; }
+    }
+  </style>
+</head>
+<body>
+<main class="shell">
+  <header class="top">
+    <div class="brand">
+      <div class="logo">AG</div>
+      <div>
+        <h1>AgentGuard 行为哨兵</h1>
+        <p>AI Agent 异常行为检测与证据链追踪</p>
+      </div>
+    </div>
+    <div class="actions">
+      <span class="status">检测引擎在线</span>
+      <button class="ghost" id="local">扫描本机快照</button>
+      <button class="ghost" id="controlled">可控异常测试</button>
+      <button class="ghost" id="upload">上传日志分析</button>
+      <button class="ghost" id="load">运行演示检测</button>
+      <input id="uploadFile" type="file" accept=".log,.jsonl,.txt,.csv" hidden>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h2>让每一次异常告警都有可追溯证据。</h2>
+    <div class="mode-note">
+      <p><strong id="modeTitle">等待检测</strong></p>
+      <p id="modeText">选择一种检测模式。结果区会用淡入和滑动过渡切换，告警可继续展开查看完整时间线。</p>
+    </div>
+  </section>
+
+  <section class="metrics">
+    <article class="metric"><div class="label">检测序列</div><div class="value" id="total">—</div><div class="hint">按实体切分的行为窗口</div></article>
+    <article class="metric"><div class="label">异常告警</div><div class="value" id="anomalies">—</div><div class="hint">超过校准阈值的序列</div></article>
+    <article class="metric"><div class="label">平均风险分</div><div class="value" id="average">—</div><div class="hint">模型分与规则分取高</div></article>
+    <article class="metric"><div class="label">当前阈值</div><div class="value" id="threshold">—</div><div class="hint">验证集内部目标校准</div></article>
+  </section>
+
+  <section class="workspace">
+    <article class="panel">
+      <div class="head"><h3>检测链路</h3><span class="badge">端到端证据保全</span></div>
+      <div class="pipeline">
+        <div class="stage"><div class="step">1</div><div><b>日志接入</b><span>主机遥测、Agent 工具调用、公共安全数据统一成事件。</span></div></div>
+        <div class="stage"><div class="step">2</div><div><b>序列编码</b><span>按实体和时间排序，转成行为词元、时间差和上下文特征。</span></div></div>
+        <div class="stage"><div class="step">3</div><div><b>模型判断</b><span>Transformer 判断整体行为是否偏离正常链路。</span></div></div>
+        <div class="stage"><div class="step">4</div><div><b>规则复核</b><span>检查提示注入、提权、读凭据、外连、上传等高危顺序。</span></div></div>
+        <div class="stage"><div class="step">5</div><div><b>证据追踪</b><span>输出风险分、解释、首要证据和完整原始日志时间线。</span></div></div>
+      </div>
+    </article>
+
+    <article class="panel result-pane" id="resultPane">
+      <div class="head"><h3>告警结果</h3><span class="badge" id="sourceBadge">尚未运行</span></div>
+      <div class="upload-strip" id="uploadStrip" data-state="idle">
+        <div class="status-dot"></div>
+        <div class="upload-copy">
+          <b id="uploadName">未选择日志</b>
+          <span id="uploadMeta">支持 BGL/HDFS 原始日志和 AgentGuard JSONL，本机解析。</span>
+        </div>
+        <div class="upload-actions">
+          <button class="link-btn upload-picker" type="button">选择日志</button>
+          <button class="link-btn upload-picker" id="uploadAgain" type="button" disabled>更换日志</button>
+        </div>
+      </div>
+      <div class="bars" id="bars"><div class="empty">选择一种检测模式载入结果。</div></div>
+      <div class="risk-list" id="risks"><div class="empty">等待检测结果。</div></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>实体</th><th>等级</th><th>混合分</th><th>模型分</th><th>规则分</th><th>异常解释</th><th>首要证据</th><th>追踪</th></tr></thead>
+          <tbody id="rows"><tr><td colspan="8" class="empty">尚未运行检测</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+
+  <section class="trace-panel" id="tracePanel">
+    <div class="head"><h3>行为链追踪</h3><span class="badge">完整时间线</span></div>
+    <div id="traceBody" class="empty">运行“可控异常测试”后，点表格里的“查看链路”。</div>
+  </section>
+
+  <div class="footer">AgentGuard 1.0 · 页面支持本机快照、可控异常模拟和可复现实验集；可控异常不执行真实攻击。</div>
+</main>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const tacticZh = {
+  'Discovery / Lateral Movement': '发现 / 横向移动',
+  'Credential Access / Exfiltration': '凭据访问 / 数据外传',
+  'Prompt Injection / Privilege Escalation': '提示注入 / 权限提升',
+  'Public Log Anomaly': '公开日志异常',
+  'Impact': '影响破坏',
+  'Credential Access': '凭据访问',
+  'Persistence': '持久化',
+  'Behavioral Anomaly': '行为异常'
+};
+const severityZh = { critical: '严重', high: '高危', medium: '中危', low: '低危' };
+const eventWords = {
+  host: '主机', agent: '智能体', network: '网络', file: '文件', process: '进程',
+  registry: '注册表', authentication: '认证', scheduler: '计划任务', tool: '工具',
+  model: '模型', permission: '权限', scan: '扫描', connect: '连接', read: '读取',
+  write: '写入', upload: '上传', start: '启动', remote_start: '远程启动',
+  set: '设置', create: '创建', list: '列目录', observed: '观察',
+  receive_prompt: '接收提示', elevate: '提权', success: '成功',
+  subnet: '子网', domain: '域名', secret: '敏感凭据', archive: '压缩包',
+  memory: '内存', service: '服务', ip: '地址', text: '文本', privilege: '权限范围',
+  directory: '目录', port: '端口'
+};
+const eventZh = s => String(s ?? '').split('|').map(x => eventWords[x] || x).join(' / ');
+let currentResults = [];
+
+function uploadButtons() {
+  return [$('#upload'), ...document.querySelectorAll('.upload-picker')];
+}
+
+function formatBytes(bytes) {
+  if (!Number.isFinite(bytes)) return '未知大小';
+  if (bytes >= 1024 * 1024) return `${(bytes / 1024 / 1024).toFixed(2)} MiB`;
+  return `${(bytes / 1024).toFixed(1)} KiB`;
+}
+
+function setUploadState(state, name, meta) {
+  $('#uploadStrip').dataset.state = state;
+  $('#uploadName').textContent = name || '未选择日志';
+  $('#uploadMeta').textContent = meta || '支持 BGL/HDFS 原始日志和 AgentGuard JSONL，本机解析。';
+  $('#uploadAgain').disabled = state === 'idle';
+}
+
+function parseErrorMessage(error) {
+  const raw = String(error?.message || error || '未知错误');
+  try {
+    const parsed = JSON.parse(raw);
+    return parsed.error || raw;
+  } catch {
+    return raw;
+  }
+}
+
+function setActive(id) {
+  ['local', 'controlled', 'upload', 'load'].forEach(name => $('#' + name).classList.toggle('active', name === id));
+}
+
+async function smoothUpdate(work) {
+  const pane = $('#resultPane');
+  const run = async () => {
+    pane.classList.add('switching');
+    await new Promise(resolve => setTimeout(resolve, 180));
+    await work();
+    pane.classList.remove('switching');
+  };
+  if (document.startViewTransition) {
+    await document.startViewTransition(run).finished;
+  } else {
+    await run();
+  }
+}
+
+async function loadDemo() {
+  const btn = $('#load');
+  setActive('load');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="spinner"></i> 检测中';
+  try {
+    const res = await fetch('/api/demo');
+    if (!res.ok) throw new Error(await res.text());
+    const data = await res.json();
+    await smoothUpdate(() => render(data, '演示测试集', '用固定随机种子的测试集展示整体检测能力。'));
+  } catch (e) {
+    alert('载入失败：' + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '运行演示检测';
+  }
+}
+
+async function loadLocal() {
+  const btn = $('#local');
+  setActive('local');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="spinner"></i> 扫描中';
+  try {
+    const res = await fetch('/api/local-snapshot');
+    if (!res.ok) throw new Error(await res.text());
+    const payload = await res.json();
+    const label = `本机快照 · ${payload.summary?.event_count ?? 0} 条事件 · ${payload.summary?.alert_count ?? 0} 条告警`;
+    await smoothUpdate(() => render(payload.results || [], label, '从当前主机采集进程名和远端端口桶，不采命令行、IP、用户名或路径。'));
+  } catch (e) {
+    alert('本机扫描失败：' + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '扫描本机快照';
+  }
+}
+
+async function loadControlled() {
+  const btn = $('#controlled');
+  setActive('controlled');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="spinner"></i> 触发中';
+  try {
+    const res = await fetch('/api/controlled-security');
+    if (!res.ok) throw new Error(await res.text());
+    const payload = await res.json();
+    const label = `可控异常测试 · 模拟日志 · ${payload.summary?.alert_count ?? 0} 条告警`;
+    await smoothUpdate(() => render(payload.results || [], label, '只生成安全模拟日志，不执行真实凭据读取、网络扫描或文件外传。'));
+  } catch (e) {
+    alert('可控异常测试失败：' + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '可控异常测试';
+  }
+}
+
+async function uploadLogFile(file) {
+  const btn = $('#upload');
+  setActive('upload');
+  uploadButtons().forEach(button => button.disabled = true);
+  btn.innerHTML = '<i class="spinner"></i> 解析中';
+  setUploadState('busy', file.name, `${formatBytes(file.size)} · 读取文件中`);
+  try {
+    const content = await file.text();
+    setUploadState('busy', file.name, `${formatBytes(file.size)} · 上传到本机检测服务`);
+    const res = await fetch('/api/upload-log', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ filename: file.name, content, limit: 800 })
+    });
+    if (!res.ok) throw new Error(await res.text());
+    const payload = await res.json();
+    const label = `上传日志 · ${payload.summary?.parser ?? 'auto'} · ${payload.summary?.agentguard_alert_count ?? 0} 条告警`;
+    const text = `已解析 ${payload.summary?.event_count ?? 0} 条事件，公开标签异常 ${payload.summary?.public_label_event_count ?? 0} 条；日志只在本机服务内解析。`;
+    setUploadState('success', file.name, `${payload.summary?.parser ?? 'auto'} · ${payload.summary?.event_count ?? 0} 条事件 · ${payload.summary?.agentguard_alert_count ?? 0} 条告警`);
+    await smoothUpdate(() => render(payload.results || [], label, text));
+  } catch (e) {
+    setUploadState('error', file.name, `解析失败：${parseErrorMessage(e)}`);
+    $('#sourceBadge').textContent = '上传失败';
+    $('#modeTitle').textContent = '上传失败';
+    $('#modeText').textContent = '请更换为 BGL/HDFS 原始日志或 AgentGuard JSONL，单个文件不超过 8 MiB。';
+  } finally {
+    uploadButtons().forEach(button => button.disabled = false);
+    btn.textContent = '上传日志分析';
+    $('#uploadFile').value = '';
+  }
+}
+
+function openUploadPicker() {
+  $('#uploadFile').value = '';
+  $('#uploadFile').click();
+}
+
+function render(data, sourceLabel, modeText) {
+  currentResults = Array.isArray(data) ? data : [];
+  const anomalies = currentResults.filter(x => x.is_anomaly);
+  $('#sourceBadge').textContent = sourceLabel || '当前数据';
+  $('#modeTitle').textContent = sourceLabel || '检测结果';
+  $('#modeText').textContent = modeText || '结果已载入，可查看告警和行为链追踪。';
+  $('#total').textContent = currentResults.length;
+  $('#anomalies').textContent = anomalies.length;
+  $('#average').textContent = (currentResults.reduce((a, x) => a + x.score, 0) / Math.max(currentResults.length, 1)).toFixed(3);
+  $('#threshold').textContent = (currentResults[0]?.threshold ?? 0).toFixed(3);
+
+  const groups = {};
+  anomalies.forEach(x => (x.mapped_tactics || ['Behavioral Anomaly']).forEach(t => {
+    const zh = tacticZh[t] || t;
+    groups[zh] = (groups[zh] || 0) + 1;
+  }));
+  const max = Math.max(1, ...Object.values(groups));
+  $('#bars').innerHTML = Object.entries(groups).slice(0, 6).map(([k, v]) =>
+    `<div class="bar-row"><span>${esc(k)}</span><div class="track"><div class="fill" style="width:${v / max * 100}%"></div></div><b>${v}</b></div>`
+  ).join('') || `<div class="empty">${esc(sourceLabel || '当前数据')}未触发异常告警</div>`;
+
+  $('#risks').innerHTML = anomalies.slice(0, 3).map(x =>
+    `<div class="risk-card"><b><span>${esc(x.entity_id)}</span><span class="critical">${Number(x.score).toFixed(3)}</span></b><p>模型 ${Number(x.model_score ?? 0).toFixed(3)} · 规则 ${Number(x.rule_score ?? 0).toFixed(3)}</p><p>${esc(x.explanation)}</p></div>`
+  ).join('') || '<div class="empty">无高风险行为。</div>';
+
+  $('#rows').innerHTML = currentResults.length ? currentResults.map((x, i) =>
+    `<tr><td>${esc(x.entity_id)}</td><td><span class="pill ${esc(x.severity)}">${esc(severityZh[x.severity] || x.severity)}</span></td><td class="score">${Number(x.score).toFixed(4)}</td><td class="score">${Number(x.model_score ?? 0).toFixed(4)}</td><td class="score">${Number(x.rule_score ?? 0).toFixed(4)}</td><td>${esc(x.explanation)}</td><td>${esc(eventZh(x.evidence?.[0]?.event || '—'))}<br><small>${esc(x.evidence?.[0]?.object_name || '')}</small></td><td><button class="link-btn" data-trace="${i}">查看链路</button></td></tr>`
+  ).join('') : `<tr><td colspan="8" class="empty">${esc(sourceLabel || '当前数据')}没有形成可检测序列</td></tr>`;
+
+  $('#traceBody').innerHTML = currentResults.length ? '<div class="empty">点击表格中的“查看链路”，查看完整行为时间线。</div>' : '<div class="empty">暂无可追踪序列。</div>';
+  document.querySelectorAll('[data-trace]').forEach(btn => btn.addEventListener('click', () => showTrace(Number(btn.dataset.trace))));
+}
+
+function showTrace(index) {
+  const item = currentResults[index];
+  if (!item) return;
+  const timeline = item.event_timeline || [];
+  const evidenceSet = new Set((item.evidence || []).map(e => `${e.timestamp}|${e.event}|${e.object_name}`));
+  const tactics = (item.mapped_tactics || []).map(t => tacticZh[t] || t).join('、') || '无';
+  const trace = $('#traceBody');
+  trace.classList.add('enter');
+  trace.innerHTML = `<div class="trace-grid"><div class="trace-summary"><h4>${esc(item.entity_id)}</h4><p><b>${esc(severityZh[item.severity] || item.severity)}</b> · 混合分 ${Number(item.score).toFixed(4)}</p><p>模型 ${Number(item.model_score ?? 0).toFixed(4)} · 规则 ${Number(item.rule_score ?? 0).toFixed(4)} · 阈值 ${Number(item.threshold ?? 0).toFixed(4)}</p><p>${esc(item.explanation)}</p><p>映射风险：${esc(tactics)}</p><p>读法：从上到下看时间线，红色边线代表关键证据或异常步骤。</p></div><div class="trace-list">${timeline.map(ev => {
+    const hit = evidenceSet.has(`${ev.timestamp}|${ev.event}|${ev.object_name}`) || ev.label === 1;
+    return `<div class="trace-item ${hit ? 'hit' : ''}" style="animation-delay:${Math.min(ev.index * 40, 360)}ms"><div class="trace-num">${ev.index}</div><div><b>${esc(eventZh(ev.event))}</b><div class="trace-meta"><span>${esc(ev.timestamp)}</span><span>对象：${esc(ev.object_name)}</span><span>场景：${esc(ev.scenario)}</span>${hit ? '<span class="critical">关键证据</span>' : ''}</div><pre class="trace-json">${esc(JSON.stringify(ev.raw_log, null, 2))}</pre></div></div>`;
+  }).join('')}</div></div>`;
+  requestAnimationFrame(() => trace.classList.remove('enter'));
+  $('#tracePanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+$('#load').addEventListener('click', loadDemo);
+$('#local').addEventListener('click', loadLocal);
+$('#controlled').addEventListener('click', loadControlled);
+$('#upload').addEventListener('click', openUploadPicker);
+document.querySelectorAll('.upload-picker').forEach(button => button.addEventListener('click', openUploadPicker));
+$('#uploadFile').addEventListener('change', event => {
+  const file = event.target.files && event.target.files[0];
+  if (file) uploadLogFile(file);
+});
+fetch('/api/health').then(r => r.json()).then(x => $('#threshold').textContent = Number(x.threshold).toFixed(3)).catch(() => {});
+if (new URLSearchParams(location.search).get('demo') === '1') loadDemo();
+</script>
+</body>
+</html>

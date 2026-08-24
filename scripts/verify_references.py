@@ -15,7 +15,7 @@ URLS = [
     "https://openreview.net/forum?id=LzQQ89U1qm_",
     "https://api.crossref.org/works/10.14778%2F3514061.3514067",
     "https://proceedings.mlr.press/v80/ruff18a.html",
-    "https://doi.org/10.1145/1541880.1541882",
+    "https://api.crossref.org/works/10.1145%2F1541880.1541882",
     "https://doi.org/10.1109/ICWS.2017.13",
     "https://doi.org/10.6028/NIST.AI.100-1",
     "https://doi.org/10.6028/NIST.SP.800-92",
@@ -47,3 +47,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
