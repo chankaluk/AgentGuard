@@ -99,7 +99,6 @@ macOS 将上面命令中的 `.\.venv\Scripts\python.exe` 换成 `.venv/bin/pytho
 ## 项目结构
 
 ```text
-00_比赛原始材料/          原压缩包随附材料，仅作归档；其中定向赛资料不适用于本项目
 configs/                  模型与训练配置
 data/demo/                自建可复现增强工程基准
 src/agentguard/           数据、模型、训练、推理与解释核心代码
