@@ -109,6 +109,7 @@ def iter_sequence_windows(
 ) -> Iterable[SequenceRecord]:
     """按到达顺序生成窗口；可限制活跃实体数以约束内存。"""
 
+    # 先触发参数校验，即使输入为空也应拒绝无效配置。
     list(window_slices(0, window_size, stride, min_events))
     if max_entities is not None and max_entities < 1:
         raise ValueError("max_entities 必须为正整数或 None")

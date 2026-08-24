@@ -54,10 +54,10 @@ ATTACK_FLOWS = {
         ("host", "network", "connect", "ip", "rare_external_ip", 0.8),
     ],
     "persistence": [
-        ("host", "scheduler", "create", "job", "hidden_task", 0.6),
+        ("host", "process", "start", "process", "script_interpreter", 0.6),
         ("host", "registry", "set", "registry", "run_key", 1.0),
         ("host", "file", "write", "file", "startup_payload", 0.9),
-        ("host", "scheduler", "create", "job", "hidden_task", 0.9),
+        ("host", "scheduler", "create", "job", "hidden_task", 1.0),
     ],
     "mass_file_tampering": [
         ("host", "file", "enumerate", "directory", "user_documents", 0.5),
@@ -201,37 +201,65 @@ def generate_dataset(
         hard_negative_count = 0
         for idx in range(sessions):
             anomalous = rng.random() < anomaly_rate
-            scenario = "normal"
             forced_scenario = None
+            if split == "test" and idx == 0:
+                anomalous = True
+                forced_scenario = holdout_scenarios[0]
             hard_negative_name = None
-            if anomalous:
-                scenario = rng.choice(development_scenarios)
-            elif rng.random() < 0.05:
-                hard_negative_name = rng.choice(hard_negative_names)
+            if not anomalous and idx % 4 == 0:
+                hard_negative_name = hard_negative_names[
+                    hard_negative_count % len(hard_negative_names)
+                ]
                 hard_negative_count += 1
-            entity_id = f"entity_{split}_{idx:04d}"
-            start = base + timedelta(days=idx)
+            start = base + timedelta(minutes=idx * 7 + rng.randint(0, 5))
             records.extend(
                 generate_session(
                     rng,
-                    entity_id,
+                    f"{split}-agent-{idx:05d}",
                     start,
-                    anomalous=anomalous,
-                    attack_scenarios=development_scenarios,
+                    anomalous,
+                    attack_scenarios=(
+                        tuple(ATTACK_FLOWS) if split == "test" else development_scenarios
+                    ),
                     forced_scenario=forced_scenario,
                     hard_negative_name=hard_negative_name,
                 )
             )
+        records.sort(key=lambda event: event.parsed_time())
+        path = output / f"{split}.jsonl"
+        with path.open("w", encoding="utf-8") as handle:
+            for event in records:
+                handle.write(json.dumps(event.to_dict(), ensure_ascii=False) + "\n")
         counts[split] = len(records)
-        output_file = output / f"{split}_sessions.json"
-        output_file.write_text(json.dumps([record.to_dict() for record in records], indent=2), encoding="utf-8")
-    counts["hard_negative_count"] = hard_negative_count
+        hard_negative_counts[split] = hard_negative_count
+    file_sha256 = {}
+    for split in specs:
+        path = output / f"{split}.jsonl"
+        file_sha256[path.name] = hashlib.sha256(path.read_bytes()).hexdigest()
+    metadata = {
+        "generator": "AgentGuard deterministic hard-negative benchmark",
+        "seed": seed,
+        "warning": "自建可复现增强工程基准，不能替代授权环境真实轨迹。",
+        "split_strategy": "实体隔离+场景留出",
+        "holdout_scenarios": list(holdout_scenarios),
+        "event_counts": counts,
+        "attack_scenarios": sorted(ATTACK_FLOWS),
+        "hard_negative_scenarios": sorted(HARD_NEGATIVE_FLOWS),
+        "hard_negative_sessions": hard_negative_counts,
+        "file_sha256": file_sha256,
+    }
+    (output / "metadata.json").write_text(
+        json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
     return counts
 
 
-def dataset_hash(output_dir: str | Path) -> str:
-    output = Path(output_dir)
-    hasher = hashlib.sha256()
-    for json_file in sorted(output.glob("*.json")):
-        hasher.update(json_file.read_bytes())
-    return hasher.hexdigest()
+def iter_jsonl(path: str | Path) -> Iterable[BehaviorEvent]:
+    with Path(path).open("r", encoding="utf-8") as handle:
+        for line_number, line in enumerate(handle, 1):
+            if not line.strip():
+                continue
+            try:
+                yield BehaviorEvent.from_dict(json.loads(line))
+            except Exception as exc:
+                raise ValueError(f"Invalid JSONL at line {line_number}: {exc}") from exc

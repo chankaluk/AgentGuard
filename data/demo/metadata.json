@@ -1,0 +1,38 @@
+{
+  "generator": "AgentGuard deterministic hard-negative benchmark",
+  "seed": 2026,
+  "warning": "自建可复现增强工程基准，不能替代授权环境真实轨迹。",
+  "split_strategy": "实体隔离+场景留出",
+  "holdout_scenarios": [
+    "lateral_movement"
+  ],
+  "event_counts": {
+    "train": 9575,
+    "validation": 2965,
+    "test": 3932
+  },
+  "attack_scenarios": [
+    "credential_access",
+    "lateral_movement",
+    "mass_file_tampering",
+    "persistence",
+    "prompt_injection_exfiltration"
+  ],
+  "hard_negative_scenarios": [
+    "approved_security_export",
+    "approved_software_install",
+    "authorized_red_team_validation",
+    "backup_rehearsal",
+    "support_diagnostics"
+  ],
+  "hard_negative_sessions": {
+    "train": 216,
+    "validation": 57,
+    "test": 74
+  },
+  "file_sha256": {
+    "train.jsonl": "c880667df980f32ee0f705fd59a47d0bcca865148808fc04bd427d0ded03f1a3",
+    "validation.jsonl": "1bc52ee6633e8dcd9e95a2aa8daacf4503a883cc349aea2f86c8e5cfd201ed71",
+    "test.jsonl": "ce827d1b81dbc68350500cd28b263b2cc09a7d2c248450ea5d8690f80d6fad25"
+  }
+}

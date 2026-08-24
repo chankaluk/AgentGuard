@@ -11,10 +11,14 @@ from _bootstrap import ROOT
 EXCLUDED_NAMES = {
     ".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".venv", "venv",
     ".matplotlib",
-    "archive_pre_optimization",
+    "archive_pre_optimization", "superpowers",
     "chrome-profile", "chrome-profile2",
     "torch-2.7.1+cpu-cp311-cp311-win_amd64.whl",
-    "last_evaluate.log", "last_generate.log",
+    "last_evaluate.log", "last_generate.log", "server.log", "server.err.log",
+    "gh_auth_error.txt", "gh_auth_output.txt",
+    "normal_from_this_host_review.jsonl",
+    "local_host_review_alerts.jsonl", "local_host_review_all_scores.jsonl",
+    "local_normal_review_summary.json",
 }
 EXCLUDED_SUFFIXES = {".pyc", ".pyo", ".zip"}
 
@@ -22,6 +26,8 @@ EXCLUDED_SUFFIXES = {".pyc", ".pyo", ".zip"}
 def included(path: Path) -> bool:
     relative = path.relative_to(ROOT)
     if relative.as_posix() == "submission/完整包_SHA256.json":
+        return False
+    if path.name.startswith("~$"):
         return False
     return not any(part in EXCLUDED_NAMES for part in relative.parts) and path.suffix.lower() not in EXCLUDED_SUFFIXES
 
